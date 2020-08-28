@@ -6,7 +6,7 @@ using AntiverseMod.Projectiles.Miscellaneous;
 
 namespace AntiverseMod.Items.Miscellaneous
 {
-	public class GravityGun : ModItem
+	public class GravityGun : ModItem // TODO: Make some way of getting this
 	{
 		Texture2D glowmask = ModContent.GetTexture("AntiverseMod/Items/Miscellaneous/GravityGun_Glowmask");
 

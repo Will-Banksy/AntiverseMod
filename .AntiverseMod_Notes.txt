@@ -1,0 +1,15 @@
+Antiverse Mod
+
+-- Ideas --
+
+New class based on the Arcane Stylus
+Arcane Stylus
+	> Allows you to draw a rune, in a single stroke, all relative to the screen rather than the world, until you stop drawing
+	> As you progress, you will collect runestones, having them in your inventory allows you to draw that rune
+	> Each rune will have a different effect, some more powerful than others
+	> Not quite sure how to implement pattern recognition/how to tell which rune has been drawn
+		> Maybe rasterise the drawn rune, and compare it to a matrix contained within the .cs file or an image of the rune?
+		> Will need to test that strategy
+		> Actually that probably wouldn't work
+	> Here's some more approaches: https://stackoverflow.com/questions/36106581/compare-two-paths-for-similarity
+	> My testing/implementing is a Processing sketch: https://github.com/Will-Banksy/Comparing-Paths

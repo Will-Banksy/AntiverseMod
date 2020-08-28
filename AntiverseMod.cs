@@ -10,7 +10,6 @@ namespace AntiverseMod
 	{
 		public override void Load()
 		{
-			Main.inventoryScale = -1f;
 		}
 
 		public override void Unload()

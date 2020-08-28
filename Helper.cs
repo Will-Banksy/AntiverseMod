@@ -1,7 +1,6 @@
 using Terraria;
 using Microsoft.Xna.Framework;
 using System;
-using System.Collections.Generic;
 
 public static class Helper
 {
@@ -48,7 +47,7 @@ public static class Helper
 
 	public static void FaceForward(this Projectile projectile)
 	{
-		projectile.rotation = projectile.velocity.ToRotation() + 1.57f; //MathHelper.ToRadians(45);
+		projectile.rotation = projectile.velocity.ToRotation() + HALF_PI;
 	}
 
 	public static Vector2 VelocityToPoint(Vector2 a, Vector2 b, float speed = 1)
