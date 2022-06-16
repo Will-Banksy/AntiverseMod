@@ -1,0 +1,5 @@
+The Antiverse Mod adds a small amount of random things that I felt like developing. One day I might make something big... But who knows
+
+Currently the mod adds some new Shroomite ammo, an upgrade to the beenade, placeable demon altars, something designed to be a Terraria implementation of the gravity gun from HL2, and one or two other things
+
+Not necessarily very balanced (but I do try) and some things may not work (yet...), but hey there's some cool stuff perhaps
