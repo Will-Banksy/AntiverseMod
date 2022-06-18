@@ -180,5 +180,9 @@ namespace AntiverseMod.Utils
 			float speed = speedVariation == null ? velocity.Length() : velocity.Length() + Main.rand.NextFloat(-speedVariation ?? 0, speedVariation ?? 0);
 			return FromPolar(ang, speed);
         }
+
+		public static Vector2 FromCentre(this Vector2 centre, float width, float height) {
+			return centre - new Vector2(width / 2, height / 2);
+		}
 	}
 }

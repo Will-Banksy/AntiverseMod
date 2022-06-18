@@ -10,7 +10,7 @@ namespace AntiverseMod.Items.Miscellaneous
 {
 	public class GravityGun : ModItem
 	{
-		Texture2D glowmask = ModContent.Request<Texture2D>("AntiverseMod/Items/Miscellaneous/GravityGun_Glowmask").Value;
+		Texture2D glowmask = AntiverseMod.RequestAsset<Texture2D>("AntiverseMod/Items/Miscellaneous/GravityGun_Glowmask").Value;
 
 		public override void SetStaticDefaults()
 		{
