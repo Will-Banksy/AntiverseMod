@@ -20,7 +20,7 @@ namespace AntiverseMod.Items.Ammo
 			Item.shootSpeed = 6f;
 			Item.knockBack = 4;
 			Item.value = Item.sellPrice(silver: 1);
-			Item.rare = 7;
+			Item.rare = ItemRarityID.Lime;
 			Item.ammo = AmmoID.Bullet;
 		}
 

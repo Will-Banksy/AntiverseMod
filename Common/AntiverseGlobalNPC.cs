@@ -4,7 +4,7 @@ using Terraria.ID;
 using Terraria.GameContent.ItemDropRules;
 using AntiverseMod.Items.Miscellaneous;
 
-namespace AntiverseMod.Globals
+namespace AntiverseMod.Common
 {
 	public class AntiverseGlobalNPC : GlobalNPC
 	{

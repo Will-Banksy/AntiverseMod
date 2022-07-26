@@ -63,7 +63,7 @@ namespace AntiverseMod.Projectiles.Magic
 				int num892 = 0;
 				while ((float)num892 < Projectile.scale * 10f)
 				{
-					int num893 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, 1, Projectile.velocity.X, Projectile.velocity.Y, 0, default(Color), 1.1f);
+					int num893 = Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Stone, Projectile.velocity.X, Projectile.velocity.Y, 0, default(Color), 1.1f);
 					Main.dust[num893].position = (Main.dust[num893].position + Projectile.Center) / 2f;
 					Main.dust[num893].noGravity = true;
 					Dust dust = Main.dust[num893];

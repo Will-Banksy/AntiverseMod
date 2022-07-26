@@ -22,10 +22,10 @@ namespace AntiverseMod.Items.Placeables
 			Item.autoReuse = true;
 			Item.useAnimation = 15;
 			Item.useTime = 10;
-			Item.useStyle = 1;
+			Item.useStyle = ItemUseStyleID.Swing;
 			Item.consumable = true;
 			Item.createTile = ModContent.TileType<CrimsonAltar>();
-			Item.rare = 1;
+			Item.rare = ItemRarityID.Blue;
 			Item.value = Item.sellPrice(silver: 5);
 		}
 

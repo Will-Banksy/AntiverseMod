@@ -47,12 +47,12 @@ namespace AntiverseMod.Items.Weapons.Magic
 			velocity.Normalize();
 			velocity *= Item.shootSpeed;
 			float num152 = (float)Main.rand.Next(10, 80) * 0.001f;
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 			{
 				num152 *= -1f;
 			}
 			float num153 = (float)Main.rand.Next(10, 80) * 0.001f;
-			if (Main.rand.Next(2) == 0)
+			if (Main.rand.NextBool(2))
 			{
 				num153 *= -1f;
 			}

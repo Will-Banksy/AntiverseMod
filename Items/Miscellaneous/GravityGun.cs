@@ -1,5 +1,6 @@
 using Terraria.ModLoader;
 using Terraria;
+using Terraria.ID;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,7 +23,7 @@ namespace AntiverseMod.Items.Miscellaneous
 		{
 			Item.useTime = 20;
 			Item.useAnimation = 20;
-			Item.useStyle = 5;
+			Item.useStyle = ItemUseStyleID.Shoot;
 			Item.useTurn = true;
 			Item.autoReuse = false;
 			Item.channel = true;
