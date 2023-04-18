@@ -2,12 +2,10 @@
 using Terraria;
 using Microsoft.Xna.Framework;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 
 namespace AntiverseMod.Utils {
 	public static class EntityHelper {
-		public struct EntityUnion {
+		public readonly struct EntityRef {
 			public enum Type {
 				NONE,
 				NPC,
@@ -17,59 +15,56 @@ namespace AntiverseMod.Utils {
 			public readonly int whoAmI;
 			public readonly Type type;
 
-			public EntityUnion(NPC npc) {
+			public EntityRef(NPC npc) {
 				//this.npc = npc;
 				//plr = null;
 				whoAmI = npc.whoAmI;
 				type = Type.NPC;
 			}
 
-			public EntityUnion(Player plr) {
+			public EntityRef(Player plr) {
 				//npc = null;
 				//this.plr = plr;
 				whoAmI = plr.whoAmI;
 				type = Type.PLAYER;
 			}
 
-			public EntityUnion(Type type, int whoAmI) {
+			public EntityRef(Type type, int whoAmI) {
 				this.type = type;
 				this.whoAmI = whoAmI;
 			}
 
 			public NPC NPC() {
-				if(type != Type.NPC) {
+				if (type != Type.NPC) {
 					throw new Exception("Incorrect access of NPC() in EntityUnion");
 				}
+
 				return Main.npc[whoAmI];
 			}
 
 			public Player Player() {
-				if(type != Type.PLAYER) {
+				if (type != Type.PLAYER) {
 					throw new Exception("Incorrect access of Player() in EntityUnion");
 				}
+
 				return Main.player[whoAmI];
 			}
 
 			public Entity Generic() {
-				switch(type) {
-					case Type.NPC:
-						return Main.npc[whoAmI];
-
-					case Type.PLAYER:
-						return Main.player[whoAmI];
-
-					default:
-						return null;
-				}
+				return type switch {
+					Type.NPC => Main.npc[whoAmI],
+					Type.PLAYER => Main.player[whoAmI],
+					_ => null
+				};
 			}
 		}
 
-		public delegate bool EntityFilter(EntityUnion entity);
+		public delegate bool EntityFilter(EntityRef entity);
 
 		/// <summary>
 		/// Filters out entites that are not enemies with the specified "protagonist" entity
 		/// </summary>
-		public static EntityFilter EntityFilterEnemy(EntityUnion protagonist) {
+		public static EntityFilter EntityFilterEnemy(EntityRef protagonist) {
 			return (entity) => Enemies(protagonist, entity);
 		}
 
@@ -85,9 +80,10 @@ namespace AntiverseMod.Utils {
 		/// </summary>
 		public static EntityFilter EntityFilterNPCCanBeChased(Projectile proj) {
 			return (entity) => {
-				if(entity.type == EntityUnion.Type.NPC) {
+				if (entity.type == EntityRef.Type.NPC) {
 					return entity.NPC().CanBeChasedBy(proj);
 				}
+
 				return true;
 			};
 		}
@@ -96,11 +92,15 @@ namespace AntiverseMod.Utils {
 		/// Filters out all entites that do not have a line of sight from fromPoint with dimensions width and height
 		/// </summary>
 		public static EntityFilter EntityFilterCollisionCanHit(Vector2 fromPoint, int width = 1, int height = 1) {
-			return (entity) => Collision.CanHit(fromPoint, width, height, entity.Generic().position, entity.Generic().width, entity.Generic().height);
+			return (entity) => Collision.CanHit(fromPoint, width, height, entity.Generic().position,
+				entity.Generic().width, entity.Generic().height);
 		}
 
-		public static EntityFilter EntityFilterAll(EntityUnion protagonist, Projectile proj, Vector2 fromPoint, int width = 1, int height = 1) {
-			return EntityFilterActive() + EntityFilterEnemy(protagonist) + EntityFilterNPCCanBeChased(proj) + EntityFilterCollisionCanHit(fromPoint, width, height);
+		public static EntityFilter EntityFilterAll(EntityRef protagonist, Projectile proj, Vector2 fromPoint,
+			int width = 1, int height = 1
+		) {
+			return EntityFilterActive() + EntityFilterEnemy(protagonist) + EntityFilterNPCCanBeChased(proj) +
+				   EntityFilterCollisionCanHit(fromPoint, width, height);
 		}
 
 		public enum IterTypes {
@@ -119,9 +119,10 @@ namespace AntiverseMod.Utils {
 			/// </summary>
 			public AllEntities(EntityFilter filter = null, IterTypes iterTypes = IterTypes.BOTH) {
 				this.filter = filter;
-				if(this.filter == null) {
+				if (this.filter == null) {
 					this.filter = defaultFilter;
 				}
+
 				this.iterTypes = iterTypes;
 			}
 
@@ -138,12 +139,12 @@ namespace AntiverseMod.Utils {
 
 			public object Current {
 				get {
-					switch(idx) {
+					switch (idx) {
 						case ArrayIdx.NPC_ARRAY:
-							return new EntityUnion(Main.npc[i]);
+							return new EntityRef(Main.npc[i]);
 
 						case ArrayIdx.PLAYER_ARRAY:
-							return new EntityUnion(Main.player[i]);
+							return new EntityRef(Main.player[i]);
 
 						default:
 							throw new Exception("idx is an unexpected value 😕");
@@ -158,44 +159,44 @@ namespace AntiverseMod.Utils {
 			private readonly IterTypes iterTypes = IterTypes.BOTH;
 
 			/// <summary>
-			/// Iterator through all entities (NPCs and Players). Iterates through entites that pass the filter and are of type iterTypes
+			/// Iterator through all entities (NPCs and Players). Iterates through entities that pass the filter and are of type iterTypes
 			/// </summary>
 			public AllEntitiesIter(EntityFilter filter = null, IterTypes iterTypes = IterTypes.BOTH) {
-				this.filter = filter;
-				if(this.filter == null) {
-					this.filter = defaultFilter;
-				}
+				this.filter = filter ?? defaultFilter;
 				this.iterTypes = iterTypes;
-				if(this.iterTypes == IterTypes.PLAYER) {
+				if (this.iterTypes == IterTypes.PLAYER) {
 					idx = ArrayIdx.PLAYER_ARRAY;
 				}
 			}
 
 			public bool MoveNext() {
-				switch(idx) {
+				switch (idx) {
 					case ArrayIdx.NPC_ARRAY:
 						do {
 							i++;
-							if(i == Main.npc.Length) {
-								if(iterTypes == IterTypes.NPC) {
+							if (i == Main.npc.Length) {
+								if (iterTypes == IterTypes.NPC) {
 									i--;
 									return false;
 								}
+
 								idx = ArrayIdx.PLAYER_ARRAY;
 								i = 0;
 								return true;
 							}
-						} while(!Filter(new EntityUnion(Main.npc[i])));
+						} while (!Filter(new EntityRef(Main.npc[i])));
+
 						return true;
 
 					case ArrayIdx.PLAYER_ARRAY:
 						do {
 							i++;
-							if(i == Main.player.Length) {
+							if (i == Main.player.Length) {
 								i--;
 								return false;
 							}
-						} while(!Filter(new EntityUnion(Main.player[i])));
+						} while (!Filter(new EntityRef(Main.player[i])));
+
 						return true;
 
 					default:
@@ -208,12 +209,13 @@ namespace AntiverseMod.Utils {
 				idx = ArrayIdx.NPC_ARRAY;
 			}
 
-			public bool Filter(EntityUnion entity) {
-				foreach(EntityFilter fl in filter.GetInvocationList()) {
-					if(!fl(entity)) {
+			public bool Filter(EntityRef entity) {
+				foreach (EntityFilter fl in filter.GetInvocationList()) {
+					if (!fl(entity)) {
 						return false;
 					}
 				}
+
 				return true;
 			}
 		}
@@ -242,30 +244,32 @@ namespace AntiverseMod.Utils {
 		/// <summary>
 		/// Returns true if one and other are enemies - Like hostile NPC and friendly NPC, player and hostile NPC, or 2 players on different teams with pvp turned on
 		/// </summary>
-		public static bool Enemies(EntityUnion one, EntityUnion other) {
+		public static bool Enemies(EntityRef one, EntityRef other) {
 			//SortCombinations(ref one, ref other);
-			switch(one.type) {
-				case EntityUnion.Type.NPC:
-					switch(other.type) {
-						case EntityUnion.Type.NPC:
+			switch (one.type) {
+				case EntityRef.Type.NPC:
+					switch (other.type) {
+						case EntityRef.Type.NPC:
 							return one.NPC().friendly != other.NPC().friendly;
 
-						case EntityUnion.Type.PLAYER:
+						case EntityRef.Type.PLAYER:
 							return !one.NPC().friendly;
 					}
+
 					return false;
 
-				case EntityUnion.Type.PLAYER:
-					switch(other.type) {
-						case EntityUnion.Type.NPC:
+				case EntityRef.Type.PLAYER:
+					switch (other.type) {
+						case EntityRef.Type.NPC:
 							return !other.NPC().friendly;
 
-						case EntityUnion.Type.PLAYER:
+						case EntityRef.Type.PLAYER:
 							bool opposingTeams = (one.Player().team != other.Player().team) || (one.Player().team == 0 && other.Player().team == 0);
 							bool bothPvp = one.Player().hostile && other.Player().hostile;
 
 							return opposingTeams && bothPvp;
 					}
+
 					return false;
 
 				default:
@@ -273,18 +277,19 @@ namespace AntiverseMod.Utils {
 			}
 		}
 
-		public static EntityUnion AcquireTarget(Projectile proj, EntityUnion projOwner, float? minDist = null, EntityFilter filter = null) {
-			bool iterThroughPlayers = (projOwner.type == EntityUnion.Type.PLAYER) && projOwner.Player().hostile;
+		public static EntityRef AcquireTarget(Projectile proj, EntityRef projOwner, float? minDist = null, EntityFilter filter = null) {
+			bool iterThroughPlayers = (projOwner.type == EntityRef.Type.PLAYER) && projOwner.Player().hostile;
 			IterTypes iterTypes = iterThroughPlayers ? IterTypes.BOTH : IterTypes.NPC;
-			EntityUnion target = default;
+			EntityRef target = default;
 			EntityFilter eFilter = filter ?? (EntityFilterActive() + EntityFilterEnemy(projOwner) + EntityFilterNPCCanBeChased(proj));
-			foreach(EntityUnion entity in new AllEntities(eFilter, iterTypes)) {
+			foreach (EntityRef entity in new AllEntities(eFilter, iterTypes)) {
 				float dist = Vector2.Distance(entity.Generic().Center, proj.Center);
-				if(minDist == null || dist < minDist) {
+				if (minDist == null || dist < minDist) {
 					minDist = dist;
 					target = entity;
 				}
 			}
+
 			return target;
 		}
 	}

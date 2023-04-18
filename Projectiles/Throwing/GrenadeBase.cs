@@ -49,7 +49,7 @@ namespace AntiverseMod.Projectiles.Throwing
 			return exploding;
 		}
 
-		public override void OnHit(EntityHelper.EntityUnion target, int damage, float? knockback, bool crit, bool pvp = false) {
+		public override void OnHit(EntityHelper.EntityRef target, int damage, float? knockback, bool crit, bool pvp = false) {
 			if(!projDying) {
 				Projectile.timeLeft = 2;
 				projDying = true;

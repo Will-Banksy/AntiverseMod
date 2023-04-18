@@ -105,7 +105,9 @@ namespace AntiverseMod.Projectiles.Miscellaneous
 
 				if(Main.netMode == NetmodeID.MultiplayerClient)
 				{
+					// TODO: Change to send ID of packet and use methods in NetHandler and shit
 					ModPacket packet = Mod.GetPacket();
+					packet.Write((byte)PacketID.GravityGunBolt);
 					packet.Write((ushort)Projectile.whoAmI);
 					packet.Write((ushort)bolt.Count);
 					foreach(BoltPoint point in bolt)
@@ -179,8 +181,9 @@ namespace AntiverseMod.Projectiles.Miscellaneous
 		{
 			for(int i = 0; i < bolt.Count; i++)
 			{
-				if(bolt[i].Rect.Intersects(targetHitbox))
-					return true;
+				if(bolt != null)
+					if(bolt[i].Rect.Intersects(targetHitbox))
+						return true;
 			}
 			return false;
 		}

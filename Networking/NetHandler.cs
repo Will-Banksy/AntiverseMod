@@ -32,6 +32,7 @@ namespace AntiverseMod.Networking
 			}
 		}
 
+		// TODO: Take a function object maybe instead of an array of objects, probably whichever would be faster but then again also considering usability
 		public static void SendPacket(ModPacket writer, byte id, object[] data, int toClient = -1, int excludeClient = -1)
 		{
 			writer.Write(id);

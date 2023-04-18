@@ -80,7 +80,7 @@ namespace AntiverseMod.Projectiles.Ranged
 			return new Color(rgba, rgba, rgba, rgba);
 		}
 
-		public override void ModifyHit(EntityHelper.EntityUnion target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection, bool pvp = false)
+		public override void ModifyHit(EntityHelper.EntityRef target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection, bool pvp = false)
 		{
 			crit = false;
 			damage = (int)(damage * Helper.Map.Linear(Projectile.timeLeft, 300, 0, 1, 1.8f));

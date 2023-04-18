@@ -11,7 +11,7 @@ namespace AntiverseMod.Projectiles.Throwing {
 	public abstract class BeeBase : MainProjBase {
 		public static sbyte[] beeHitCooldown = new sbyte[Main.npc.Length];
 
-		public EntityUnion target = default;
+		public EntityRef target = default;
 
 		/// The max speed the bee can reach
 		public float maxSpeed = 8f;
@@ -48,7 +48,7 @@ namespace AntiverseMod.Projectiles.Throwing {
 			base.AI();
 
 			// Check if target is dead. If so, we need to aquire another target
-			if(Projectile.owner == Main.myPlayer && (target.type == EntityUnion.Type.NONE || !target.Generic().active) && (Projectile.timeLeft + Projectile.ai[1]) % 10 == 0) {
+			if(Projectile.owner == Main.myPlayer && (target.type == EntityRef.Type.NONE || !target.Generic().active) && (Projectile.timeLeft + Projectile.ai[1]) % 10 == 0) {
 				Projectile.ai[0] = 1;
 			} else {
 				Projectile.ai[0] = 0;
@@ -56,9 +56,9 @@ namespace AntiverseMod.Projectiles.Throwing {
 
 			// Aquire a target if one has not already been found
 			if(Projectile.ai[0] == 1) {
-				EntityUnion plr = new EntityUnion(EntityUnion.Type.PLAYER, Projectile.owner);
+				EntityRef plr = new EntityRef(EntityRef.Type.PLAYER, Projectile.owner);
 				target = AcquireTarget(Projectile, plr, 1000f, EntityFilterAll(plr, Projectile, Projectile.position, Projectile.width, Projectile.height));
-				if(target.type != EntityUnion.Type.NONE) {
+				if(target.type != EntityRef.Type.NONE) {
 					Projectile.ai[0] = 0;
 					if(Main.netMode == NetmodeID.MultiplayerClient) {
 						NetHandler.SendPacket(Mod.GetPacket(), PacketID.BeeSyncTarget, new object[] { (ushort)Projectile.whoAmI, (byte)target.type, (ushort)target.whoAmI });
@@ -76,7 +76,7 @@ namespace AntiverseMod.Projectiles.Throwing {
 			Projectile.rotation = Projectile.velocity.X * 0.1f;
 
 			// If there is no target, do not continue
-			if(target.type != EntityUnion.Type.NONE) {
+			if(target.type != EntityRef.Type.NONE) {
 				// Home in on the enemy
 				Vector2 toTarget = target.Generic().Center - Projectile.Center;
 				if(toTarget.Length() > maxSpeed) {
@@ -102,8 +102,8 @@ namespace AntiverseMod.Projectiles.Throwing {
 			return false;
 		}
 
-		public override void OnHit(EntityUnion target, int damage, float? knockback, bool crit, bool pvp = false) {
-			if(target.type == EntityUnion.Type.NPC) {
+		public override void OnHit(EntityRef target, int damage, float? knockback, bool crit, bool pvp = false) {
+			if(target.type == EntityRef.Type.NPC) {
 				target.NPC().immune[Projectile.owner] = 0;
 				beeHitCooldown[target.NPC().whoAmI] = 10;
 			}

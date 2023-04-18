@@ -17,11 +17,11 @@ namespace AntiverseMod.Items.Placeables {
 
 		public override void SetDefaults()
 		{
-			Item.width = 30;
-			Item.height = 24;
+			Item.width = 52;
+			Item.height = 42;
 
 			Item.maxStack = 99;
-			Item.consumable = true;
+			// Item.consumable = true;
 
 			Item.useStyle = ItemUseStyleID.Swing;
 			Item.useAnimation = 15;
@@ -32,8 +32,8 @@ namespace AntiverseMod.Items.Placeables {
 			Item.rare = ItemRarityID.Green;
 			Item.value = Item.buyPrice(silver: 4);
 
-			Item.createTile = ModContent.TileType<MetalBars>();
-			Item.placeStyle = 0;
+			// Item.createTile = ModContent.TileType<MetalBars>();
+			// Item.placeStyle = 0;
 		}
 
 		public override void AddRecipes()

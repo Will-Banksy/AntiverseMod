@@ -32,13 +32,13 @@ namespace AntiverseMod.Projectiles.Throwing
 			base.AI();
 		}
 
-		public override void ModifyHit(EntityHelper.EntityUnion target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection, bool pvp = false) {
+		public override void ModifyHit(EntityHelper.EntityRef target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection, bool pvp = false) {
 			damage = (int)(damage * 1.08f);
 		}
 
-		public override void OnHit(EntityHelper.EntityUnion target, int damage, float? knockback, bool crit, bool pvp = false) {
+		public override void OnHit(EntityHelper.EntityRef target, int damage, float? knockback, bool crit, bool pvp = false) {
 			base.OnHit(target, damage, knockback, crit, pvp);
-			if(target.type == EntityHelper.EntityUnion.Type.NPC) {
+			if(target.type == EntityHelper.EntityRef.Type.NPC) {
 				target.NPC().AddBuff(BuffID.Poisoned, 360);
 			}
 		}

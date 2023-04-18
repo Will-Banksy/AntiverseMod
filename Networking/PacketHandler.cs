@@ -54,7 +54,7 @@ namespace AntiverseMod.Networking
 			ushort projectileId = reader.ReadUInt16();
 			byte type = reader.ReadByte();
 			ushort entityWhoAmI = reader.ReadUInt16();
-			EntityHelper.EntityUnion target = new EntityHelper.EntityUnion((EntityHelper.EntityUnion.Type)type, entityWhoAmI);
+			EntityHelper.EntityRef target = new EntityHelper.EntityRef((EntityHelper.EntityRef.Type)type, entityWhoAmI);
 			((BeeBase)Main.projectile[projectileId].ModProjectile).target = target;
 		}
 	}

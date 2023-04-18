@@ -67,9 +67,9 @@ namespace AntiverseMod.Projectiles.Ranged
 			return new Color(Projectile.alpha, Projectile.alpha, Projectile.alpha, Projectile.alpha);
 		}
 
-		public override void OnHit(EntityHelper.EntityUnion target, int damage, float? knockback, bool crit, bool pvp = false)
+		public override void OnHit(EntityHelper.EntityRef target, int damage, float? knockback, bool crit, bool pvp = false)
 		{
-			if(target.type == EntityHelper.EntityUnion.Type.NPC)
+			if(target.type == EntityHelper.EntityRef.Type.NPC)
 			{
 				target.NPC().immune[Projectile.owner] = 0;
 			}

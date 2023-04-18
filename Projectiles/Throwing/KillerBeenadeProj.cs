@@ -54,7 +54,7 @@ namespace AntiverseMod.Projectiles.Throwing
 			return ModContent.ProjectileType<KillerBeeSmall>();
 		}
 
-		public override void OnHit(EntityHelper.EntityUnion target, int damage, float? knockback, bool crit, bool pvp = false) {
+		public override void OnHit(EntityHelper.EntityRef target, int damage, float? knockback, bool crit, bool pvp = false) {
 			base.OnHit(target, damage, knockback, crit, pvp);
 			target.NPC().immune[Projectile.owner] = 0;
 		}
