@@ -4,42 +4,42 @@ using Terraria.UI;
 using System.Collections.Generic;
 using Terraria;
 
-namespace AntiverseMod.UI {
-	public class AntiverseUI : ModSystem {
-		private UserInterface ui = null;
-		private UIState rosaryBraceletUI = null;
+namespace AntiverseMod.UI; 
 
-		public override void Load() {
-			if (!Main.dedServ) {
-				// TODO: Figure out what Main.dedServ means. Dedicated Server?
-				rosaryBraceletUI = new RosaryBraceletUI();
-				rosaryBraceletUI.Activate();
+public class AntiverseUI : ModSystem {
+	private UserInterface ui = null;
+	private UIState rosaryBraceletUI = null;
 
-				ui = new UserInterface();
-				ui.SetState(rosaryBraceletUI);
-			}
+	public override void Load() {
+		if (!Main.dedServ) {
+			// TODO: Figure out what Main.dedServ means. Dedicated Server?
+			rosaryBraceletUI = new RosaryBraceletUI();
+			rosaryBraceletUI.Activate();
+
+			ui = new UserInterface();
+			ui.SetState(rosaryBraceletUI);
 		}
+	}
 
-		public override void Unload() {
-			ui = null;
-		}
+	public override void Unload() {
+		ui = null;
+	}
 
-		public override void UpdateUI(GameTime gameTime) {
-			ui?.Update(gameTime);
-		}
+	public override void UpdateUI(GameTime gameTime) {
+		ui?.Update(gameTime);
+	}
 
-		public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) {
-			int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
-			if (mouseTextIndex != -1) {
-				layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
-					"Antiverse Mod: Rosary Bead UI",
-					delegate {
-						ui.Draw(Main.spriteBatch, new GameTime());
-						return true;
-					},
-					InterfaceScaleType.UI
-				));
-			}
+	public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers) {
+		int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+		if (mouseTextIndex != -1) {
+			layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+				"Antiverse Mod: Rosary Bead UI",
+				delegate {
+					ui.Draw(Main.spriteBatch, new GameTime());
+					return true;
+				},
+				InterfaceScaleType.UI
+			));
 		}
 	}
 }

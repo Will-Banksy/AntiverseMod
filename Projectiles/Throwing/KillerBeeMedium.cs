@@ -3,44 +3,43 @@ using AntiverseMod.Utils;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AntiverseMod.Projectiles.Throwing
+namespace AntiverseMod.Projectiles.Throwing; 
+
+public class KillerBeeMedium : BeeBase
 {
-	public class KillerBeeMedium : BeeBase
+	public override void SetStaticDefaults()
 	{
-		public override void SetStaticDefaults()
-		{
-			DisplayName.SetDefault("Killer Bee");
-			Main.projFrames[Projectile.type] = 4;
-		}
+		DisplayName.SetDefault("Killer Bee");
+		Main.projFrames[Projectile.type] = 4;
+	}
 
-		public override void SetDefaults()
-		{
-			base.SetDefaults();
+	public override void SetDefaults()
+	{
+		base.SetDefaults();
 
-			Projectile.width = 16;
-			Projectile.height = 18;
-			Projectile.friendly = true;
-			Projectile.DamageType = DamageClass.Ranged;
-			Projectile.penetrate = 3;
-			Projectile.tileCollide = true;
-			Projectile.timeLeft = 360; // 600 is bees from beenade timeLeft
-		}
+		Projectile.width = 16;
+		Projectile.height = 18;
+		Projectile.friendly = true;
+		Projectile.DamageType = DamageClass.Ranged;
+		Projectile.penetrate = 3;
+		Projectile.tileCollide = true;
+		Projectile.timeLeft = 360; // 600 is bees from beenade timeLeft
+	}
 
-		public override void AI()
-		{
-			Helper.StepAnim(Projectile, 10);
-			base.AI();
-		}
+	public override void AI()
+	{
+		Helper.StepAnim(Projectile, 10);
+		base.AI();
+	}
 
-		public override void ModifyHit(EntityHelper.EntityRef target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection, bool pvp = false) {
-			damage = (int)(damage * 1.08f);
-		}
+	public override void ModifyHit(EntityRef target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection, bool pvp = false) {
+		damage = (int)(damage * 1.08f);
+	}
 
-		public override void OnHit(EntityHelper.EntityRef target, int damage, float? knockback, bool crit, bool pvp = false) {
-			base.OnHit(target, damage, knockback, crit, pvp);
-			if(target.type == EntityHelper.EntityRef.Type.NPC) {
-				target.NPC().AddBuff(BuffID.Poisoned, 360);
-			}
+	public override void OnHit(EntityRef target, int damage, float? knockback, bool crit, bool pvp = false) {
+		base.OnHit(target, damage, knockback, crit, pvp);
+		if(target.type == EntityRef.Type.NPC) {
+			target.NPC().AddBuff(BuffID.Poisoned, 360);
 		}
 	}
 }

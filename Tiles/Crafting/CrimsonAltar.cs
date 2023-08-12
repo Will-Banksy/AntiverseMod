@@ -7,55 +7,54 @@ using Terraria.ObjectData;
 using Terraria.DataStructures;
 using AntiverseMod.Items.Placeables;
 
-namespace AntiverseMod.Tiles.Crafting
+namespace AntiverseMod.Tiles.Crafting; 
+
+public class CrimsonAltar : ModTile //Multi Tile
 {
-    public class CrimsonAltar : ModTile //Multi Tile
+	public override void SetStaticDefaults()
 	{
-		public override void SetStaticDefaults()
-		{
-			Main.tileFrameImportant[Type] = true;
-			Main.tileSolid[Type] = false; // You'll probably want to be able to walk through the object, since that's possible with all altars.
-			Main.tileNoAttach[Type] = true; // We do not want this tile to attach to anything.
-			MineResist = 1.2f;
+		Main.tileFrameImportant[Type] = true;
+		Main.tileSolid[Type] = false; // You'll probably want to be able to walk through the object, since that's possible with all altars.
+		Main.tileNoAttach[Type] = true; // We do not want this tile to attach to anything.
+		MineResist = 1.2f;
 
-			ModTranslation name = CreateMapEntryName();
-			name.SetDefault("Crimson Altar");
-			AddMapEntry(new Color(119, 101, 125), name);
+		ModTranslation name = CreateMapEntryName();
+		name.SetDefault("Crimson Altar");
+		AddMapEntry(new Color(119, 101, 125), name);
 
-			TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
-			TileObjectData.newTile.Width = 3; // A width of 3 'pieces'.
-			TileObjectData.newTile.Height = 2; // A height of 2 'pieces'.
-			TileObjectData.newTile.Origin = new Point16(0, 0); // The origin of the tile. You might want to change the Y value of this Point16, since most tiles are placed from the bottom left corner in Terraria (which would make it (0, 1) probably).
-			TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0); // Make sure that we need to place this altar on solid tiles, based on the width (which is 3, as set before).
-			// TileObjectData.newTile.UsesCustomCanPlace = true; // Yeah, we use a custom Can Place.
-			TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 }; // Allright, so here we get to the point where the topper piece is 16 pixels in height and the bottom piece is 18 pixels.
-																											// You start with the top most tile when assigning these values, so make sure you work from top to bottom.
-			TileObjectData.newTile.CoordinateWidth = 16; // Each of the tile 'pieces' is 16 pixels in width.
-			TileObjectData.newTile.CoordinatePadding = 2; // And a padding of 2 pixels.
-			TileObjectData.addTile(Type); // And make sure you finish it off, so that this data is actually used.
+		TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
+		TileObjectData.newTile.Width = 3; // A width of 3 'pieces'.
+		TileObjectData.newTile.Height = 2; // A height of 2 'pieces'.
+		TileObjectData.newTile.Origin = new Point16(0, 0); // The origin of the tile. You might want to change the Y value of this Point16, since most tiles are placed from the bottom left corner in Terraria (which would make it (0, 1) probably).
+		TileObjectData.newTile.AnchorBottom = new AnchorData(AnchorType.SolidTile, TileObjectData.newTile.Width, 0); // Make sure that we need to place this altar on solid tiles, based on the width (which is 3, as set before).
+		// TileObjectData.newTile.UsesCustomCanPlace = true; // Yeah, we use a custom Can Place.
+		TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 }; // Allright, so here we get to the point where the topper piece is 16 pixels in height and the bottom piece is 18 pixels.
+		// You start with the top most tile when assigning these values, so make sure you work from top to bottom.
+		TileObjectData.newTile.CoordinateWidth = 16; // Each of the tile 'pieces' is 16 pixels in width.
+		TileObjectData.newTile.CoordinatePadding = 2; // And a padding of 2 pixels.
+		TileObjectData.addTile(Type); // And make sure you finish it off, so that this data is actually used.
 
-			AdjTiles = new int[]{ TileID.DemonAltar }; //Makes this tile act as the tile you enter, in this case a demon altar. Useful for making custom tiles crafting stations
+		AdjTiles = new int[]{ TileID.DemonAltar }; //Makes this tile act as the tile you enter, in this case a demon altar. Useful for making custom tiles crafting stations
 
-			// We do not need to set the 'drop', since when using tiles that conist of multiple pieces, you'll want to override the KillMultiTile function.
-		}
+		// We do not need to set the 'drop', since when using tiles that conist of multiple pieces, you'll want to override the KillMultiTile function.
+	}
 
-		public override void KillMultiTile(int i, int j, int frameX, int frameY)
-		{
-			// The first parameters are the X and then the Y coordinate of this tile in 'world space'.
-			// Then the width and the height of the tile in pixels and then the ID of the tile we want to drop.
-			Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ModContent.ItemType<CrimsonAltarItem>());
-		}
+	public override void KillMultiTile(int i, int j, int frameX, int frameY)
+	{
+		// The first parameters are the X and then the Y coordinate of this tile in 'world space'.
+		// Then the width and the height of the tile in pixels and then the ID of the tile we want to drop.
+		Item.NewItem(new EntitySource_TileBreak(i, j), i * 16, j * 16, 48, 32, ModContent.ItemType<CrimsonAltarItem>());
+	}
 
-		public override void NumDust(int i, int j, bool fail, ref int num)
-		{
-			num = fail ? 1 : 3;
-		}
+	public override void NumDust(int i, int j, bool fail, ref int num)
+	{
+		num = fail ? 1 : 3;
+	}
 
-		public override bool CreateDust(int i, int j, ref int type)
-		{
-			type = 5;
-			// Dust.NewDust(new Vector2(i * 16f, j * 16f), 16, 16, type);
-			return true;
-		}
+	public override bool CreateDust(int i, int j, ref int type)
+	{
+		type = 5;
+		// Dust.NewDust(new Vector2(i * 16f, j * 16f), 16, 16, type);
+		return true;
 	}
 }
