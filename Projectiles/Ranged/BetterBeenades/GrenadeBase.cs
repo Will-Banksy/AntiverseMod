@@ -5,24 +5,21 @@ using Terraria.ID;
 using Terraria.Audio;
 using AntiverseMod.Utils;
 
-namespace AntiverseMod.Projectiles.Throwing; 
+namespace AntiverseMod.Projectiles.Ranged.BetterBeenades;
 
-public abstract class GrenadeBase : MainProjBase
-{
+public abstract class GrenadeBase : MainProjBase {
 	private bool exploding = false;
 	protected int explosionRadius = 20;
 	protected bool explodeOnContact = true;
 	private bool projDying = false;
 
-	public override void SetDefaults()
-	{
+	public override void SetDefaults() {
 		Projectile.aiStyle = 14; // Same as
+		Projectile.DamageType = DamageClass.Ranged;
 	}
 
-	public override void AI()
-	{
-		if(Projectile.owner == Main.myPlayer && Projectile.timeLeft == 1)
-		{
+	public override void AI() {
+		if(Projectile.owner == Main.myPlayer && Projectile.timeLeft == 1) {
 			exploding = true;
 
 			// Expand the Projectile centred around the Projectile centre
@@ -34,14 +31,12 @@ public abstract class GrenadeBase : MainProjBase
 			OnExplode();
 		}
 
-		if(!exploding)
-		{
+		if(!exploding) {
 			base.AI();
 		}
 	}
 
-	public override bool? CanDamage()
-	{
+	public override bool? CanDamage() {
 		return exploding | explodeOnContact;
 	}
 
@@ -49,20 +44,19 @@ public abstract class GrenadeBase : MainProjBase
 		return exploding;
 	}
 
-	public override void OnHit(EntityRef target, int damage, float? knockback, bool crit, bool pvp = false) {
+	public override void OnHit(EntityRef target, EntityRef.EntityHitInfo hitInfo) {
 		if(!projDying) {
 			Projectile.timeLeft = 2;
 			projDying = true;
 		}
 	}
 
-	protected virtual void OnExplode()
-	{
+	protected virtual void OnExplode() {
 		SoundEngine.PlaySound(SoundID.Item14, Projectile.position);
-		for (int i = 0; i < 20; i++)
-		{
+		for(int i = 0; i < 20; i++) {
 			Dust.NewDust(new Vector2(Projectile.position.X, Projectile.position.Y), Projectile.width, Projectile.height, DustID.Smoke, 0f, 0f, 100, default(Color), 1.5f);
 		}
+
 		int goreId = Gore.NewGore(Projectile.GetSource_FromThis(), Projectile.position, Vector2.Zero, Main.rand.Next(61, 64), 1f);
 		Gore gore = Main.gore[goreId];
 		gore.velocity.X++;

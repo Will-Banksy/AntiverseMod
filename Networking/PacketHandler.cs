@@ -3,9 +3,9 @@ using Terraria;
 using Terraria.ModLoader;
 using System.Collections.Generic;
 using AntiverseMod.Projectiles.Miscellaneous;
+using AntiverseMod.Projectiles.Ranged.BetterBeenades;
 using Microsoft.Xna.Framework;
 using AntiverseMod.Utils;
-using AntiverseMod.Projectiles.Throwing;
 
 namespace AntiverseMod.Networking; 
 
@@ -55,6 +55,8 @@ public static class PacketHandler
 		byte type = reader.ReadByte();
 		ushort entityWhoAmI = reader.ReadUInt16();
 		EntityRef target = new EntityRef((EntityRef.Type)type, entityWhoAmI);
-		((BeeBase)Main.projectile[projectileId].ModProjectile).target = target;
+		if(Main.projectile[projectileId].ModProjectile is BeeBase) {
+			((BeeBase)Main.projectile[projectileId].ModProjectile).target = target;
+		}
 	}
 }

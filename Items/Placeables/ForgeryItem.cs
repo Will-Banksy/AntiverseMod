@@ -3,16 +3,10 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using AntiverseMod.Tiles.Crafting;
 
-namespace AntiverseMod.Items.Placeables; 
+namespace AntiverseMod.Items.Placeables;
 
 public class ForgeryItem : ModItem {
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Forgery");
-	}
-
-	public override void SetDefaults()
-	{
+	public override void SetDefaults() {
 		Item.width = 30;
 		Item.height = 20;
 
@@ -31,8 +25,7 @@ public class ForgeryItem : ModItem {
 		Item.createTile = ModContent.TileType<Forgery>();
 	}
 
-	public override void AddRecipes()
-	{
+	public override void AddRecipes() {
 		CreateRecipe()
 			.AddRecipeGroup("Hardmode Forges")
 			.AddRecipeGroup("Hardmode Anvils")

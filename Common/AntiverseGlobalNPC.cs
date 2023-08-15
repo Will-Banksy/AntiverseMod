@@ -29,12 +29,7 @@ public class AntiverseGlobalNPC : GlobalNPC {
 		}
 	}
 
-	public override void SetupShop(int type, Chest shop, ref int nextSlot) {
-		if (type == NPCID.Demolitionist) {
-			Item beenade = new Item();
-			beenade.SetDefaults(ItemID.Beenade);
-			shop.item[nextSlot] = beenade;
-			nextSlot++;
-		}
+	public override void ModifyShop(NPCShop shop) {
+		shop.Add(ItemID.Beenade, Condition.DownedQueenBee);
 	}
 }

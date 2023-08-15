@@ -1,0 +1,113 @@
+Mods: {
+	AntiverseMod: {
+		Items: {
+			ShroomiteArrowItem: {
+				DisplayName: Shroomite Arrow
+				Tooltip: Slightly homing and does more damage the longer it's in the air
+			}
+
+			ShroomiteBulletItem: {
+				DisplayName: Shroomite Bullet
+				Tooltip:
+					'''
+					Phases through walls and enemies until at cursor
+					Doesn't give immunity frames but respects them
+					'''
+			}
+
+			Boron: {
+				DisplayName: Boron
+				Tooltip: ""
+			}
+
+			Sassolite: {
+				DisplayName: Sassolite
+				Tooltip: ""
+			}
+
+			BrokenNecromanticMirror: {
+				DisplayName: Broken Necromantic Mirror
+				Tooltip: Needs to be repaired before it can function again
+			}
+
+			GravityGun: {
+				DisplayName: Zero-Point Energy Field Manipulator
+				Tooltip: ...Or you can just call it a gravity gun
+			}
+
+			NecromanticMirror: {
+				DisplayName: Necromantic Mirror
+				Tooltip: Teleports you to your last death position
+			}
+
+			BoronCarbide: {
+				DisplayName: Boron Carbide
+				Tooltip: ""
+			}
+
+			CrimsonAltarItem: {
+				DisplayName: Crimson Altar
+				Tooltip: ""
+			}
+
+			DemonicAltarItem: {
+				DisplayName: Demonic Altar
+				Tooltip: ""
+			}
+
+			ForgeryItem: {
+				DisplayName: Forgery
+				Tooltip: ""
+			}
+
+			TestItem: {
+				DisplayName: Test Item
+				Tooltip: For testing
+			}
+
+			StoneIdol: {
+				DisplayName: Stone Idol
+				Tooltip: Summons curving stone spears to strike your foes
+			}
+
+			ScrapSword: {
+				DisplayName: Scrap Sword
+				Tooltip: Made from hastily bundled together scrap metal
+			}
+
+			KillerBeenade: {
+				DisplayName: Killer Beenade
+				Tooltip: Heard you wanted better beenades?
+			}
+		}
+
+		Projectiles: {
+			StoneSpear.DisplayName: Stone Spear
+			GravityGunProjectile.DisplayName: Gravity Gun Projectile
+			GravityGunProjectileBolt.DisplayName: Gravity Gun Bolt
+			ShroomiteArrow.DisplayName: Shroomite Arrow
+			ShroomiteBullet.DisplayName: Shroomite Bullet
+			KillerBeeMedium.DisplayName: Killer Bee
+			KillerBeenadeProj.DisplayName: Killer Beenade
+			KillerBeeSmall.DisplayName: Killer Bee
+		}
+
+		Tiles: {
+			CrimsonAltar.MapEntry: Crimson Altar
+			DemonicAltar.MapEntry: Demonic Altar
+			Forgery.MapEntry: Forgery
+		}
+
+		Configs: {
+			AntiverseConfig: {
+				DisplayName: Antiverse Config
+				Headers.Miscellaneous: Miscellaneous Header
+
+				NecromanticMirrorBreak: {
+					Label: Necromantic Mirror breaks
+					Tooltip: Set to true for the Necromantic Mirror to break upon death; False for it to not
+				}
+			}
+		}
+	}
+}

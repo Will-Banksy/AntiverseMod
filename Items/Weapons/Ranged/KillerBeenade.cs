@@ -1,15 +1,13 @@
 ﻿using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
-using AntiverseMod.Projectiles.Throwing;
+using AntiverseMod.Projectiles.Ranged.BetterBeenades;
 using System;
 
-namespace AntiverseMod.Items.Weapons.Throwing; 
+namespace AntiverseMod.Items.Weapons.Ranged;
 
-public class KillerBeenade : ModItem
-{
-	public override void SetDefaults()
-	{
+public class KillerBeenade : ModItem {
+	public override void SetDefaults() {
 		Item.damage = 28;
 		Item.DamageType = DamageClass.Ranged;
 		Item.maxStack = 999;
@@ -31,14 +29,7 @@ public class KillerBeenade : ModItem
 		Item.noUseGraphic = true;
 	}
 
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Killer Beenade");
-		Tooltip.SetDefault("Heard you wanted better beenades?");
-	}
-
-	public override void AddRecipes()
-	{
+	public override void AddRecipes() {
 		Recipe recipe = CreateRecipe(100);
 		recipe.AddIngredient(ItemID.Beenade, 100);
 		recipe.AddIngredient(ItemID.CobaltBar, 1);

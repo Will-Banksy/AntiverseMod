@@ -3,16 +3,10 @@ using Terraria;
 using Terraria.ID;
 using AntiverseMod.Tiles.Crafting;
 
-namespace AntiverseMod.Items.Materials; 
+namespace AntiverseMod.Items.Materials;
 
 public class Boron : ModItem {
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Boron");
-	}
-
-	public override void SetDefaults()
-	{
+	public override void SetDefaults() {
 		Item.width = 22;
 		Item.height = 20;
 
@@ -21,8 +15,7 @@ public class Boron : ModItem {
 		Item.rare = ItemRarityID.Green;
 	}
 
-	public override void AddRecipes()
-	{
+	public override void AddRecipes() {
 		CreateRecipe()
 			.AddIngredient<Sassolite>()
 			// .AddIngredient(ItemID.IronBar) // Kinda unfair to players in a world with lead instead of iron

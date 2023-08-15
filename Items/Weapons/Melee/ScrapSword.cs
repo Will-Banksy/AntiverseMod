@@ -2,13 +2,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AntiverseMod.Items.Weapons.Melee; 
+namespace AntiverseMod.Items.Weapons.Melee;
 
 public class ScrapSword : ModItem {
-	public override void SetStaticDefaults() {
-		Tooltip.SetDefault("Made from hastily bundled together scrap metal");
-	}
-
 	public override void SetDefaults() {
 		Item.damage = 19;
 		Item.DamageType = DamageClass.Melee;
@@ -27,7 +23,7 @@ public class ScrapSword : ModItem {
 
 	public override void AddRecipes() {
 		const int amt = 5;
-			
+
 		Recipe recipe = CreateRecipe();
 		recipe.AddIngredient(ItemID.TinOre, amt);
 		recipe.AddIngredient(ItemID.CopperOre, amt);

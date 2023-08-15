@@ -3,12 +3,10 @@ using Terraria.ModLoader;
 using Terraria;
 using AntiverseMod.Projectiles.Ranged;
 
-namespace AntiverseMod.Items.Ammo; 
+namespace AntiverseMod.Items.Ammo;
 
-public class ShroomiteArrowItem : ModItem
-{
-	public override void SetDefaults()
-	{
+public class ShroomiteArrowItem : ModItem {
+	public override void SetDefaults() {
 		Item.damage = 12;
 		Item.DamageType = DamageClass.Ranged;
 		Item.width = 8;
@@ -23,14 +21,7 @@ public class ShroomiteArrowItem : ModItem
 		Item.ammo = AmmoID.Arrow;
 	}
 
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Shroomite Arrow");
-		Tooltip.SetDefault("Slightly homing and does more damage the longer it's in the air");
-	}
-
-	public override void AddRecipes()
-	{
+	public override void AddRecipes() {
 		Recipe recipe = CreateRecipe(100);
 		recipe.AddIngredient(ItemID.ShroomiteBar, 1);
 		// recipe.SetResult(this, 100);

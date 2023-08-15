@@ -7,20 +7,12 @@ using Microsoft.Xna.Framework.Graphics;
 using AntiverseMod.Projectiles.Miscellaneous;
 using ReLogic.Content;
 
-namespace AntiverseMod.Items.Miscellaneous; 
+namespace AntiverseMod.Items.Miscellaneous;
 
-public class GravityGun : ModItem
-{
+public class GravityGun : ModItem {
 	Texture2D glowmask = AntiverseMod.RequestAsset<Texture2D>("AntiverseMod/Items/Miscellaneous/GravityGun_Glowmask").Value;
 
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Zero-Point Energy Field Manipulator");
-		Tooltip.SetDefault("...Or you can just call it a gravity gun");
-	}
-
-	public override void SetDefaults()
-	{
+	public override void SetDefaults() {
 		Item.useTime = 20;
 		Item.useAnimation = 20;
 		Item.useStyle = ItemUseStyleID.Shoot;
@@ -37,13 +29,11 @@ public class GravityGun : ModItem
 		Item.shootSpeed = 8f;
 	}
 
-	public override bool AltFunctionUse(Player player)
-	{
+	public override bool AltFunctionUse(Player player) {
 		return true;
 	}
 
-	public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI)
-	{
+	public override void PostDrawInWorld(SpriteBatch spriteBatch, Color lightColor, Color alphaColor, float rotation, float scale, int whoAmI) {
 		// Draw the glowmask
 		spriteBatch.Draw
 		(
@@ -51,7 +41,7 @@ public class GravityGun : ModItem
 			new Vector2
 			(
 				Item.position.X - Main.screenPosition.X + Item.width * 0.5f,
-				Item.position.Y - Main.screenPosition.Y + Item.height - glowmask.Height * 0.5f + 2f
+				Item.position.Y - Main.screenPosition.Y + Item.height - glowmask.Height * 0.5f + 1f
 			),
 			new Rectangle(0, 0, glowmask.Width, glowmask.Height),
 			Color.White,

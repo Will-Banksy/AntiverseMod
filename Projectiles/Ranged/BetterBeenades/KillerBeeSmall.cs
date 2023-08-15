@@ -2,18 +2,14 @@
 using AntiverseMod.Utils;
 using Terraria.ModLoader;
 
-namespace AntiverseMod.Projectiles.Throwing; 
+namespace AntiverseMod.Projectiles.Ranged.BetterBeenades;
 
-public class KillerBeeSmall : BeeBase
-{
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Killer Bee");
+public class KillerBeeSmall : BeeBase {
+	public override void SetStaticDefaults() {
 		Main.projFrames[Projectile.type] = 4;
 	}
 
-	public override void SetDefaults()
-	{
+	public override void SetDefaults() {
 		base.SetDefaults();
 
 		Projectile.width = 10;
@@ -25,8 +21,7 @@ public class KillerBeeSmall : BeeBase
 		Projectile.timeLeft = 360; // 600 is bees from beenade timeLeft
 	}
 
-	public override void AI()
-	{
+	public override void AI() {
 		Helper.StepAnim(Projectile, 10);
 		base.AI();
 	}

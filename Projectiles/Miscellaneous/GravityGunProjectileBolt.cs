@@ -9,25 +9,16 @@ using AntiverseMod.Networking;
 using AntiverseMod.Utils;
 using Terraria.GameContent;
 
-namespace AntiverseMod.Projectiles.Miscellaneous; 
+namespace AntiverseMod.Projectiles.Miscellaneous;
 
-public class GravityGunProjectileBolt : ModProjectile
-{
-	public class BoltPoint
-	{
-		public float rotation;
+public class GravityGunProjectileBolt : ModProjectile {
+	public class BoltPoint {
+		public readonly float rotation;
 		public Vector2 position;
 
-		public Rectangle Rect
-		{
-			get
-			{
-				return new Rectangle((int)position.X - 24, (int)position.Y - 24, 48, 48);
-			}
-		}
+		public Rectangle Rect => new((int)position.X - 24, (int)position.Y - 24, 48, 48);
 
-		public BoltPoint(Vector2 position, float rotation)
-		{
+		public BoltPoint(Vector2 position, float rotation) {
 			this.rotation = rotation;
 			this.position = position;
 		}
@@ -36,13 +27,7 @@ public class GravityGunProjectileBolt : ModProjectile
 	public List<BoltPoint> bolt = null;
 	private Texture2D texture = null;
 
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Gravity Gun Bolt");
-	}
-
-	public override void SetDefaults()
-	{
+	public override void SetDefaults() {
 		Projectile.width = 2;
 		Projectile.height = 2;
 		Projectile.penetrate = -1;
@@ -52,35 +37,31 @@ public class GravityGunProjectileBolt : ModProjectile
 		Projectile.hostile = false;
 	}
 
-	public override void AI()
-	{
-		if(texture == null)
-			texture = TextureAssets.Projectile[Projectile.type].Value;
+	public override void AI() {
+		if(texture == null) texture = TextureAssets.Projectile[Projectile.type].Value;
 
 		// projectile.velocity = Vector2.Zero;
 
 		// If the client that is attempting to run this code is not owned by the player that owns this projectile. Don't want the server to run it either
-		if(bolt == null && Projectile.owner == Main.myPlayer && Main.netMode != NetmodeID.Server)
-		{
+		if(bolt == null && Projectile.owner == Main.myPlayer && Main.netMode != NetmodeID.Server) {
 			bolt = new List<BoltPoint>();
 
 			// bolt = PlotBoltLine(Main.player[projectile.owner].Center, Main.MouseWorld);
-			Vector2 start = Projectile.Center;//Main.player[projectile.owner].Center;
+			Vector2 start = Projectile.Center; //Main.player[projectile.owner].Center;
 			Vector2 end = Main.MouseWorld;
 			Vector2 current = start;
 			Vector2 unit = Helper.VelocityToPoint(start, end);
 			Projectile.velocity = unit;
 			float timer = 0;
 
-			while(true)
-			{
+			while(true) {
 				float amt = Helper.Map.QuadIn(timer, 0, 1, 0, 1);
 
 				float randomness = 1 - timer;
 				float dist = Main.rand.Next(100);
 				dist *= randomness;
 
-				Vector2 controlPoint = Vector2.Lerp(start, end, amt);//unit * amt + Projectile.Center;
+				Vector2 controlPoint = Vector2.Lerp(start, end, amt); //unit * amt + Projectile.Center;
 
 				Vector2 point = Helper.FromPolar(Main.rand.NextFloat(Helper.TWO_PI), dist, controlPoint);
 
@@ -88,48 +69,41 @@ public class GravityGunProjectileBolt : ModProjectile
 
 				current = point;
 
-				if(timer >= 1)
-				{
+				if(timer >= 1) {
 					break;
 				}
+
 				timer += 0.2f;
 			}
 
-			foreach(BoltPoint point in bolt)
-			{
+			foreach(BoltPoint point in bolt) {
 				int i = Dust.NewDust(point.position + new Vector2(Main.rand.Next(-20, 20), Main.rand.Next(-20, 20)), 1, 1, ModContent.DustType<GravityGunDust>());
 				Main.dust[i].noGravity = false;
 			}
 
 			Projectile.ai[0] = Projectile.timeLeft;
 
-			if(Main.netMode == NetmodeID.MultiplayerClient)
-			{
+			if(Main.netMode == NetmodeID.MultiplayerClient) {
 				// TODO: Change to send ID of packet and use methods in NetHandler and shit
 				ModPacket packet = Mod.GetPacket();
 				packet.Write((byte)PacketID.GravityGunBolt);
 				packet.Write((ushort)Projectile.whoAmI);
 				packet.Write((ushort)bolt.Count);
-				foreach(BoltPoint point in bolt)
-				{
+				foreach(BoltPoint point in bolt) {
 					packet.WriteVector2(point.position);
 					packet.Write((ushort)MathHelper.ToDegrees(point.rotation));
 				}
+
 				packet.Send(); // Send data to server
 			}
-		}
-		else
-		{
+		} else {
 			Projectile.alpha = (int)Helper.Map.ExpoIn(Projectile.timeLeft, Projectile.ai[0], 0, 255, 0);
 		}
 	}
 
-	public override bool PreDraw(ref Color lightColor)
-	{
-		if(bolt != null)
-		{
-			foreach(BoltPoint point in bolt)
-			{
+	public override bool PreDraw(ref Color lightColor) {
+		if(bolt != null) {
+			foreach(BoltPoint point in bolt) {
 				Main.EntitySpriteDraw
 				(
 					texture,
@@ -148,8 +122,7 @@ public class GravityGunProjectileBolt : ModProjectile
 		return false;
 	}
 
-	private List<BoltPoint> PlotBoltLine(Vector2 start, Vector2 end)
-	{
+	private List<BoltPoint> PlotBoltLine(Vector2 start, Vector2 end) {
 		List<BoltPoint> plot = new List<BoltPoint>();
 
 		int step = texture.Height;
@@ -158,33 +131,30 @@ public class GravityGunProjectileBolt : ModProjectile
 		Vector2 current = start;
 		Vector2 dirToEnd = Helper.DirTo(start, end);
 
-		int safetyNet_MaxIterations = 1000;
-		int safetyNet_Iteration = 0;
+		int safetyNetMaxIterations = 1000;
+		int safetyNetIteration = 0;
 
-		while(true)
-		{
+		while(true) {
 			plot.Add(new BoltPoint(current, angle));
 			current += unit * step;
 
-			if(dirToEnd != Helper.DirTo(current, end) || safetyNet_Iteration >= safetyNet_MaxIterations)
-			{
+			if(dirToEnd != Helper.DirTo(current, end) || safetyNetIteration >= safetyNetMaxIterations) {
 				break;
 			}
 
-			safetyNet_Iteration++;
+			safetyNetIteration++;
 		}
 
 		return plot;
 	}
 
-	public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-	{
-		for(int i = 0; i < bolt.Count; i++)
-		{
+	public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
+		for(int i = 0; i < bolt.Count; i++) {
 			if(bolt != null)
 				if(bolt[i].Rect.Intersects(targetHitbox))
 					return true;
 		}
+
 		return false;
 	}
 }

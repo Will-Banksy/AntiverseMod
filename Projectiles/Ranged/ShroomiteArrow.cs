@@ -5,19 +5,12 @@ using AntiverseMod.Utils;
 using Terraria.ModLoader;
 using Terraria.Audio;
 
-namespace AntiverseMod.Projectiles.Ranged; 
+namespace AntiverseMod.Projectiles.Ranged;
 
-public class ShroomiteArrow : MainProjBase
-{
+public class ShroomiteArrow : MainProjBase {
 	// Using ai[0] as the initial speed of the Projectile
 
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Shroomite Arrow");
-	}
-
-	public override void SetDefaults()
-	{
+	public override void SetDefaults() {
 		Projectile.width = 14;
 		Projectile.height = 14;
 		Projectile.friendly = true;
@@ -29,10 +22,8 @@ public class ShroomiteArrow : MainProjBase
 		Projectile.timeLeft = 300;
 	}
 
-	public override void AI()
-	{
-		if(Projectile.timeLeft == 300)
-		{
+	public override void AI() {
+		if(Projectile.timeLeft == 300) {
 			Projectile.ai[0] = Projectile.velocity.Length();
 		}
 
@@ -43,17 +34,12 @@ public class ShroomiteArrow : MainProjBase
 
 		NPC target = null;
 		float smallestDist = -1;
-		foreach(NPC npc in Main.npc)
-		{
-			if(npc.CanBeChasedBy(Projectile))
-			{
-				if(Projectile.Center.AngleTo(npc.Center).AngleBetween(Projectile.velocity.ToRotation() - 0.3f, Projectile.velocity.ToRotation() + 0.3f))
-				{
-					if(Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height))
-					{
+		foreach(NPC npc in Main.npc) {
+			if(npc.CanBeChasedBy(Projectile)) {
+				if(Projectile.Center.AngleTo(npc.Center).AngleBetween(Projectile.velocity.ToRotation() - 0.3f, Projectile.velocity.ToRotation() + 0.3f)) {
+					if(Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height)) {
 						float dist = Vector2.Distance(Projectile.Center, npc.Center);
-						if(dist < smallestDist || smallestDist == -1)
-						{
+						if(dist < smallestDist || smallestDist == -1) {
 							target = npc;
 							smallestDist = dist;
 						}
@@ -62,30 +48,27 @@ public class ShroomiteArrow : MainProjBase
 			}
 		}
 
-		if(target != null)
-		{
+		if(target != null) {
 			Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.VelocityToPoint(Projectile.Center, target.Center, Projectile.ai[0]), 0.1f);
-		}
-		else
-		{
+		} else {
 			Projectile.velocity.Y += 0.1f;
 		}
 	}
 
-	public override Color? GetAlpha(Color lightColor)
-	{
+	public override Color? GetAlpha(Color lightColor) {
 		int rgba = 255 - Projectile.alpha;
 		return new Color(rgba, rgba, rgba, rgba);
 	}
 
-	public override void ModifyHit(EntityRef target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection, bool pvp = false)
-	{
-		crit = false;
-		damage = (int)(damage * Helper.Map.Linear(Projectile.timeLeft, 300, 0, 1, 1.8f));
+	public override void ModifyHit(EntityRef target, EntityRef.EntityHitModifiers hitModifiers) {
+		float multiplier = Helper.Map.Linear(Projectile.timeLeft, 300, 0, 1, 1.8f);
+		hitModifiers.Match(
+			npcMods => npcMods.SourceDamage *= multiplier,
+			plrMods => plrMods.SourceDamage *= multiplier
+		);
 	}
 
-	public override bool OnTileCollide(Vector2 oldVelocity)
-	{
+	public override bool OnTileCollide(Vector2 oldVelocity) {
 		Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
 		SoundEngine.PlaySound(SoundID.Item10, Projectile.position); // SoundID.Item10 is the hit tile sound
 		return true;

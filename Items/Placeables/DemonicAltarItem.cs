@@ -3,18 +3,10 @@ using Terraria.ModLoader;
 using AntiverseMod.Tiles.Crafting;
 using Terraria;
 
-namespace AntiverseMod.Items.Placeables; 
+namespace AntiverseMod.Items.Placeables;
 
-public class DemonicAltarItem : ModItem
-{
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Demonic Altar");
-		//Tooltip.SetDefault("");
-	}
-
-	public override void SetDefaults()
-	{
+public class DemonicAltarItem : ModItem {
+	public override void SetDefaults() {
 		Item.width = 12;
 		Item.height = 12;
 		Item.maxStack = 999;
@@ -29,8 +21,7 @@ public class DemonicAltarItem : ModItem
 		Item.value = Item.sellPrice(silver: 5);
 	}
 
-	public override void AddRecipes()
-	{
+	public override void AddRecipes() {
 		Recipe recipe = CreateRecipe();
 		recipe.AddIngredient(ItemID.RottenChunk, 12);
 		recipe.AddIngredient(ItemID.EbonstoneBlock, 12);

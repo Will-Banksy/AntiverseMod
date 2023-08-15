@@ -13,11 +13,6 @@ public class ShroomiteBullet : MainProjBase
 	private bool tangible = false;
 	private Vector2 mousePos;
 
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Shroomite Bullet");
-	}
-
 	public override void SetDefaults()
 	{
 		Projectile.width = 2;
@@ -68,7 +63,7 @@ public class ShroomiteBullet : MainProjBase
 		return new Color(Projectile.alpha, Projectile.alpha, Projectile.alpha, Projectile.alpha);
 	}
 
-	public override void OnHit(EntityRef target, int damage, float? knockback, bool crit, bool pvp = false)
+	public override void OnHit(EntityRef target, EntityRef.EntityHitInfo hitInfo)
 	{
 		if(target.type == EntityRef.Type.NPC)
 		{

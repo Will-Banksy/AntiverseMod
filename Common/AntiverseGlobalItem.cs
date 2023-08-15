@@ -14,7 +14,7 @@ public class AntiverseGlobalItem : GlobalItem {
 		ItemID.Sets.ExtractinatorMode[item.type] = item.type;
 	}
 
-	public override void ExtractinatorUse(int extractType, ref int resultType, ref int resultStack) {
+	public override void ExtractinatorUse(int extractType, int extractinatorBlockType, ref int resultType, ref int resultStack) {
 		resultType = 0;
 		resultStack = 1;
 

@@ -4,12 +4,10 @@ using Terraria.ModLoader;
 using Terraria;
 using AntiverseMod.Projectiles.Ranged;
 
-namespace AntiverseMod.Items.Ammo; 
+namespace AntiverseMod.Items.Ammo;
 
-public class ShroomiteBulletItem : ModItem
-{
-	public override void SetDefaults()
-	{
+public class ShroomiteBulletItem : ModItem {
+	public override void SetDefaults() {
 		Item.damage = 12;
 		Item.DamageType = DamageClass.Ranged;
 		Item.width = 8;
@@ -24,14 +22,7 @@ public class ShroomiteBulletItem : ModItem
 		Item.ammo = AmmoID.Bullet;
 	}
 
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Shroomite Bullet");
-		Tooltip.SetDefault("Phases through walls and enemies until at cursor\nDoesn't give immunity frames but respects them");
-	}
-
-	public override void AddRecipes()
-	{
+	public override void AddRecipes() {
 		Recipe recipe = CreateRecipe(100);
 		recipe.AddIngredient(ItemID.ShroomiteBar, 1);
 		// recipe.SetResult(this, 100);

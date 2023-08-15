@@ -5,12 +5,10 @@ using Terraria.ModLoader;
 using Terraria.DataStructures;
 using AntiverseMod.Projectiles.Magic;
 
-namespace AntiverseMod.Items.Weapons.Magic; 
+namespace AntiverseMod.Items.Weapons.Magic;
 
-public class StoneIdol : ModItem
-{
-	public override void SetDefaults()
-	{
+public class StoneIdol : ModItem {
+	public override void SetDefaults() {
 		Item.damage = 10;
 		Item.crit = 3;
 		Item.DamageType = DamageClass.Magic;
@@ -32,14 +30,7 @@ public class StoneIdol : ModItem
 		Item.noUseGraphic = true;
 	}
 
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Stone Idol");
-		Tooltip.SetDefault("Summons curving stone spears to strike your foes");
-	}
-
-	public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockBack)
-	{
+	public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockBack) {
 		velocity.Normalize();
 		Vector2 value5 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
 		value5.Normalize();
@@ -47,21 +38,20 @@ public class StoneIdol : ModItem
 		velocity.Normalize();
 		velocity *= Item.shootSpeed;
 		float num152 = (float)Main.rand.Next(10, 80) * 0.001f;
-		if (Main.rand.NextBool(2))
-		{
+		if(Main.rand.NextBool(2)) {
 			num152 *= -1f;
 		}
+
 		float num153 = (float)Main.rand.Next(10, 80) * 0.001f;
-		if (Main.rand.NextBool(2))
-		{
+		if(Main.rand.NextBool(2)) {
 			num153 *= -1f;
 		}
+
 		Projectile.NewProjectile(source, player.Center.X, player.Center.Y, velocity.X, velocity.Y, type, damage, knockBack, Main.myPlayer, num153, num152);
 		return false;
 	}
 
-	public override void AddRecipes()
-	{
+	public override void AddRecipes() {
 		Recipe recipe = CreateRecipe();
 		recipe.AddIngredient(ItemID.StoneBlock, 30);
 		recipe.AddIngredient(ItemID.FallenStar, 1);

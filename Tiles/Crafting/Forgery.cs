@@ -6,6 +6,7 @@ using Terraria.ObjectData;
 using Terraria.DataStructures;
 using Microsoft.Xna.Framework;
 using AntiverseMod.Items.Placeables;
+using Terraria.Localization;
 
 // TODO: Add an adamantite/titanium upgrade
 
@@ -17,10 +18,8 @@ public class Forgery : ModTile {
 		Main.tileSolid[Type] = false;
 		Main.tileNoAttach[Type] = true; // We do not want this tile to attach to anything
 		Main.tileSolidTop[Type] = true; // The top is like a table
-
-		ModTranslation name = CreateMapEntryName();
-		name.SetDefault("Forgery");
-		AddMapEntry(new Color(238, 85, 70), name); // Same colour as hellforge
+		
+		AddMapEntry(new Color(238, 85, 70), Language.GetText("Mods.AntiverseMod.Items.ForgeryItem.DisplayName")); // Same colour as hellforge
 
 		TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
 		TileObjectData.newTile.CoordinateHeights = new int[] { 16, 18 }; // Height of each "piece" - bottom piece is 18px to intersect with the ground a little to show behind like grass

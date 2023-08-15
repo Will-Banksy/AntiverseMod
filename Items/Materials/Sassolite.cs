@@ -1,16 +1,10 @@
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace AntiverseMod.Items.Materials; 
+namespace AntiverseMod.Items.Materials;
 
 public class Sassolite : ModItem {
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Sassolite");
-	}
-
-	public override void SetDefaults()
-	{
+	public override void SetDefaults() {
 		Item.width = 26;
 		Item.height = 20;
 

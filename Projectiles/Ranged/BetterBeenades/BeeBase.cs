@@ -7,7 +7,7 @@ using System;
 using AntiverseMod.Networking;
 using static AntiverseMod.Utils.EntityHelper;
 
-namespace AntiverseMod.Projectiles.Throwing; 
+namespace AntiverseMod.Projectiles.Ranged.BetterBeenades; 
 
 public abstract class BeeBase : MainProjBase {
 	public static sbyte[] beeHitCooldown = new sbyte[Main.npc.Length];
@@ -26,6 +26,7 @@ public abstract class BeeBase : MainProjBase {
 	public override void SetDefaults() {
 		//Projectile.aiStyle = 36;
 		Projectile.ai[0] = 1;
+		Projectile.DamageType = DamageClass.Ranged;
 	}
 
 	public override void Kill(int timeLeft) {
@@ -103,7 +104,7 @@ public abstract class BeeBase : MainProjBase {
 		return false;
 	}
 
-	public override void OnHit(EntityRef target, int damage, float? knockback, bool crit, bool pvp = false) {
+	public override void OnHit(EntityRef target, EntityRef.EntityHitInfo hitInfo) {
 		if(target.type == EntityRef.Type.NPC) {
 			target.NPC().immune[Projectile.owner] = 0;
 			beeHitCooldown[target.NPC().whoAmI] = 10;

@@ -12,7 +12,6 @@ namespace AntiverseMod.Items.Placeables;
 public class BoronCarbide : ModItem {
 	public override void SetStaticDefaults()
 	{
-		DisplayName.SetDefault("Boron Carbide");
 		ItemID.Sets.SortingPriorityMaterials[Item.type] = 64; // TODO: 59 is Platinum bar, higher is more valuable. Settle on a score for this
 	}
 

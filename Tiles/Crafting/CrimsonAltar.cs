@@ -6,6 +6,7 @@ using Terraria.Enums;
 using Terraria.ObjectData;
 using Terraria.DataStructures;
 using AntiverseMod.Items.Placeables;
+using Terraria.Localization;
 
 namespace AntiverseMod.Tiles.Crafting; 
 
@@ -17,10 +18,8 @@ public class CrimsonAltar : ModTile //Multi Tile
 		Main.tileSolid[Type] = false; // You'll probably want to be able to walk through the object, since that's possible with all altars.
 		Main.tileNoAttach[Type] = true; // We do not want this tile to attach to anything.
 		MineResist = 1.2f;
-
-		ModTranslation name = CreateMapEntryName();
-		name.SetDefault("Crimson Altar");
-		AddMapEntry(new Color(119, 101, 125), name);
+		
+		AddMapEntry(new Color(119, 101, 125), Language.GetText("Mods.AntiverseMod.Items.CrimsonAltarItem.DisplayName"));
 
 		TileObjectData.newTile.CopyFrom(TileObjectData.Style3x2);
 		TileObjectData.newTile.Width = 3; // A width of 3 'pieces'.

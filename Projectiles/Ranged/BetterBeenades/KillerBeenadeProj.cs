@@ -3,17 +3,10 @@ using Terraria.ModLoader;
 using Microsoft.Xna.Framework;
 using AntiverseMod.Utils;
 
-namespace AntiverseMod.Projectiles.Throwing; 
+namespace AntiverseMod.Projectiles.Ranged.BetterBeenades;
 
-public class KillerBeenadeProj : GrenadeBase
-{
-	public override void SetStaticDefaults()
-	{
-		DisplayName.SetDefault("Killer Beenade");
-	}
-
-	public override void SetDefaults()
-	{
+public class KillerBeenadeProj : GrenadeBase {
+	public override void SetDefaults() {
 		base.SetDefaults();
 
 		Projectile.width = 22;
@@ -28,16 +21,13 @@ public class KillerBeenadeProj : GrenadeBase
 		explodeOnContact = true;
 	}
 
-	protected override void OnExplode()
-	{
+	protected override void OnExplode() {
 		base.OnExplode();
 
 		float beeSpeed = 4f;
 
-		foreach(Vector2 vec in Helper.vecArrCross)
-		{
-			for(int i = 0; i < 5; i++)
-			{
+		foreach(Vector2 vec in Helper.vecArrCross) {
+			for(int i = 0; i < 5; i++) {
 				int beeType = KillerBeeType(i);
 
 				Projectile.NewProjectile(Projectile.GetSource_FromThis(), Projectile.Center, Helper.RandSpread(vec * beeSpeed, 0.3f, 1.25f), beeType, Projectile.damage, Projectile.knockBack, Projectile.owner);
@@ -45,17 +35,16 @@ public class KillerBeenadeProj : GrenadeBase
 		}
 	}
 
-	private int KillerBeeType(int beeNum)
-	{
-		if(beeNum <= 1 || (Main.player[Projectile.owner].strongBees && beeNum <= 3))
-		{
+	private int KillerBeeType(int beeNum) {
+		if(beeNum <= 1 || (Main.player[Projectile.owner].strongBees && beeNum <= 3)) {
 			return ModContent.ProjectileType<KillerBeeMedium>();
 		}
+
 		return ModContent.ProjectileType<KillerBeeSmall>();
 	}
 
-	public override void OnHit(EntityRef target, int damage, float? knockback, bool crit, bool pvp = false) {
-		base.OnHit(target, damage, knockback, crit, pvp);
+	public override void OnHit(EntityRef target, EntityRef.EntityHitInfo hitInfo) {
+		base.OnHit(target, hitInfo);
 		target.NPC().immune[Projectile.owner] = 0;
 	}
 }

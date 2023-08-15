@@ -1,5 +1,5 @@
+using AntiverseMod.Projectiles.Ranged.BetterBeenades;
 using Terraria.ModLoader;
-using AntiverseMod.Projectiles.Throwing;
 
 namespace AntiverseMod; 
 
