@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Microsoft.Xna.Framework;
 using System;
+using Terraria.ModLoader;
 
 namespace AntiverseMod.Utils; 
 
@@ -183,5 +184,29 @@ public static class Helper
 
 	public static Vector2 FromCentre(this Vector2 centre, float width, float height) {
 		return centre - new Vector2(width / 2, height / 2);
+	}
+
+	// Add to as needed
+	public static NPC.HitModifiers Copy(this NPC.HitModifiers mods, StatModifier? sourceDamage = null, StatModifier? finalDamage = null) {
+		if(sourceDamage != null) {
+			mods.SourceDamage = sourceDamage.Value;
+		}
+		if(finalDamage != null) {
+			mods.FinalDamage = finalDamage.Value;
+		}
+
+		return mods;
+	}
+	
+	// Add to as needed
+	public static Player.HurtModifiers Copy(this Player.HurtModifiers mods, StatModifier? sourceDamage = null, StatModifier? finalDamage = null) {
+		if(sourceDamage != null) {
+			mods.SourceDamage = sourceDamage.Value;
+		}
+		if(finalDamage != null) {
+			mods.FinalDamage = finalDamage.Value;
+		}
+
+		return mods;
 	}
 }

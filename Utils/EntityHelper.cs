@@ -25,10 +25,10 @@ public static class EntityHelper {
 	/// <summary>
 	/// Filter out any NPCs that can't be chased by the specified projectile
 	/// </summary>
-	public static EntityFilter EntityFilterNPCCanBeChased(Projectile proj) {
+	public static EntityFilter EntityFilterNpcCanBeChased(Projectile proj) {
 		return (entity) => {
-			if (entity.type == EntityRef.Type.NPC) {
-				return entity.NPC().CanBeChasedBy(proj);
+			if (entity.type == EntityRef.Type.Npc) {
+				return entity.Npc().CanBeChasedBy(proj);
 			}
 
 			return true;
@@ -46,25 +46,25 @@ public static class EntityHelper {
 	public static EntityFilter EntityFilterAll(EntityRef protagonist, Projectile proj, Vector2 fromPoint,
 		int width = 1, int height = 1
 	) {
-		return EntityFilterActive() + EntityFilterEnemy(protagonist) + EntityFilterNPCCanBeChased(proj) +
+		return EntityFilterActive() + EntityFilterEnemy(protagonist) + EntityFilterNpcCanBeChased(proj) +
 			   EntityFilterCollisionCanHit(fromPoint, width, height);
 	}
 
 	public enum IterTypes {
-		NPC,
-		PLAYER,
-		BOTH
+		Npc,
+		Player,
+		Both
 	}
 
 	public class AllEntities : IEnumerable {
 		private readonly EntityFilter filter = null;
 		public static readonly EntityFilter defaultFilter = EntityFilterActive();
-		private readonly IterTypes iterTypes = IterTypes.BOTH;
+		private readonly IterTypes iterTypes = IterTypes.Both;
 
 		/// <summary>
 		/// Collection of all entities (NPCs and Players). Produces an iterator through entites that pass the filter and are of type iterTypes
 		/// </summary>
-		public AllEntities(EntityFilter filter = null, IterTypes iterTypes = IterTypes.BOTH) {
+		public AllEntities(EntityFilter filter = null, IterTypes iterTypes = IterTypes.Both) {
 			this.filter = filter;
 			if (this.filter == null) {
 				this.filter = defaultFilter;
@@ -80,17 +80,17 @@ public static class EntityHelper {
 
 	public class AllEntitiesIter : IEnumerator {
 		private enum ArrayIdx {
-			NPC_ARRAY,
-			PLAYER_ARRAY
+			NpcArray,
+			PlayerArray
 		}
 
 		public object Current {
 			get {
 				switch (idx) {
-					case ArrayIdx.NPC_ARRAY:
+					case ArrayIdx.NpcArray:
 						return new EntityRef(Main.npc[i]);
 
-					case ArrayIdx.PLAYER_ARRAY:
+					case ArrayIdx.PlayerArray:
 						return new EntityRef(Main.player[i]);
 
 					default:
@@ -100,34 +100,34 @@ public static class EntityHelper {
 		}
 
 		private int i = 0;
-		private ArrayIdx idx = ArrayIdx.NPC_ARRAY;
+		private ArrayIdx idx = ArrayIdx.NpcArray;
 		private readonly EntityFilter filter = null;
 		public static readonly EntityFilter defaultFilter = EntityFilterActive();
-		private readonly IterTypes iterTypes = IterTypes.BOTH;
+		private readonly IterTypes iterTypes = IterTypes.Both;
 
 		/// <summary>
 		/// Iterator through all entities (NPCs and Players). Iterates through entities that pass the filter and are of type iterTypes
 		/// </summary>
-		public AllEntitiesIter(EntityFilter filter = null, IterTypes iterTypes = IterTypes.BOTH) {
+		public AllEntitiesIter(EntityFilter filter = null, IterTypes iterTypes = IterTypes.Both) {
 			this.filter = filter ?? defaultFilter;
 			this.iterTypes = iterTypes;
-			if (this.iterTypes == IterTypes.PLAYER) {
-				idx = ArrayIdx.PLAYER_ARRAY;
+			if (this.iterTypes == IterTypes.Player) {
+				idx = ArrayIdx.PlayerArray;
 			}
 		}
 
 		public bool MoveNext() {
 			switch (idx) {
-				case ArrayIdx.NPC_ARRAY:
+				case ArrayIdx.NpcArray:
 					do {
 						i++;
 						if (i == Main.npc.Length) {
-							if (iterTypes == IterTypes.NPC) {
+							if (iterTypes == IterTypes.Npc) {
 								i--;
 								return false;
 							}
 
-							idx = ArrayIdx.PLAYER_ARRAY;
+							idx = ArrayIdx.PlayerArray;
 							i = 0;
 							return true;
 						}
@@ -135,7 +135,7 @@ public static class EntityHelper {
 
 					return true;
 
-				case ArrayIdx.PLAYER_ARRAY:
+				case ArrayIdx.PlayerArray:
 					do {
 						i++;
 						if (i == Main.player.Length) {
@@ -153,7 +153,7 @@ public static class EntityHelper {
 
 		public void Reset() {
 			i = 0;
-			idx = ArrayIdx.NPC_ARRAY;
+			idx = ArrayIdx.NpcArray;
 		}
 
 		public bool Filter(EntityRef entity) {
@@ -194,23 +194,23 @@ public static class EntityHelper {
 	public static bool Enemies(EntityRef one, EntityRef other) {
 		//SortCombinations(ref one, ref other);
 		switch (one.type) {
-			case EntityRef.Type.NPC:
+			case EntityRef.Type.Npc:
 				switch (other.type) {
-					case EntityRef.Type.NPC:
-						return one.NPC().friendly != other.NPC().friendly;
+					case EntityRef.Type.Npc:
+						return one.Npc().friendly != other.Npc().friendly;
 
-					case EntityRef.Type.PLAYER:
-						return !one.NPC().friendly;
+					case EntityRef.Type.Player:
+						return !one.Npc().friendly;
 				}
 
 				return false;
 
-			case EntityRef.Type.PLAYER:
+			case EntityRef.Type.Player:
 				switch (other.type) {
-					case EntityRef.Type.NPC:
-						return !other.NPC().friendly;
+					case EntityRef.Type.Npc:
+						return !other.Npc().friendly;
 
-					case EntityRef.Type.PLAYER:
+					case EntityRef.Type.Player:
 						bool opposingTeams = (one.Player().team != other.Player().team) || (one.Player().team == 0 && other.Player().team == 0);
 						bool bothPvp = one.Player().hostile && other.Player().hostile;
 
@@ -224,11 +224,22 @@ public static class EntityHelper {
 		}
 	}
 
+	/// <summary>
+	/// Loops through all NPCs and Players, using the <c>minDist</c> and <c>filter</c>s to filter through them,
+	/// and returns (as an <see cref="EntityRef"/>) the first valid entity that meets the criteria.
+	/// </summary>
+	/// <param name="proj">The projectile that is acquiring the target</param>
+	/// <param name="projOwner">The owner of the projectile as an EntityRef</param>
+	/// <param name="minDist">The minimum distance a target (NPC or player) needs to be away from the projectile in order to be valid,
+	/// if null there is no minimum distance</param>
+	/// <param name="filter">The <see cref="EntityFilter"/>s that are used to filter out invalid targets. If null, a default of
+	/// <see cref="EntityFilterActive"/>, <see cref="EntityFilterEnemy"/> and <see cref="EntityFilterNpcCanBeChased"/> are used</param>
+	/// <returns></returns>
 	public static EntityRef AcquireTarget(Projectile proj, EntityRef projOwner, float? minDist = null, EntityFilter filter = null) {
-		bool iterThroughPlayers = (projOwner.type == EntityRef.Type.PLAYER) && projOwner.Player().hostile;
-		IterTypes iterTypes = iterThroughPlayers ? IterTypes.BOTH : IterTypes.NPC;
+		bool iterThroughPlayers = projOwner.type == EntityRef.Type.Player && projOwner.Player().hostile;
+		IterTypes iterTypes = iterThroughPlayers ? IterTypes.Both : IterTypes.Npc;
 		EntityRef target = default;
-		EntityFilter eFilter = filter ?? (EntityFilterActive() + EntityFilterEnemy(projOwner) + EntityFilterNPCCanBeChased(proj));
+		EntityFilter eFilter = filter ?? (EntityFilterActive() + EntityFilterEnemy(projOwner) + EntityFilterNpcCanBeChased(proj));
 		foreach (EntityRef entity in new AllEntities(eFilter, iterTypes)) {
 			float dist = Vector2.Distance(entity.Generic().Center, proj.Center);
 			if (minDist == null || dist < minDist) {

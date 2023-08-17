@@ -45,6 +45,6 @@ public class KillerBeenadeProj : GrenadeBase {
 
 	public override void OnHit(EntityRef target, EntityRef.EntityHitInfo hitInfo) {
 		base.OnHit(target, hitInfo);
-		target.NPC().immune[Projectile.owner] = 0;
+		target.Npc().immune[Projectile.owner] = 0;
 	}
 }

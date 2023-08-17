@@ -22,7 +22,7 @@ Mods: {
 
 			Sassolite: {
 				DisplayName: Sassolite
-				Tooltip: ""
+				Tooltip: Extracted from the ash of the underworld
 			}
 
 			BrokenNecromanticMirror: {
@@ -79,17 +79,23 @@ Mods: {
 				DisplayName: Killer Beenade
 				Tooltip: Heard you wanted better beenades?
 			}
+
+			FungicidePowder: {
+				DisplayName: Fungicide Powder
+				Tooltip: Cleanses the fungi
+			}
 		}
 
 		Projectiles: {
 			StoneSpear.DisplayName: Stone Spear
-			GravityGunProjectile.DisplayName: Gravity Gun Projectile
+			GravityGunProjectile.DisplayName: Gravity Gun
 			GravityGunProjectileBolt.DisplayName: Gravity Gun Bolt
 			ShroomiteArrow.DisplayName: Shroomite Arrow
 			ShroomiteBullet.DisplayName: Shroomite Bullet
 			KillerBeeMedium.DisplayName: Killer Bee
 			KillerBeenadeProj.DisplayName: Killer Beenade
 			KillerBeeSmall.DisplayName: Killer Bee
+			FungicidePowderProj.DisplayName: Fungicide Powder Proj
 		}
 
 		Tiles: {

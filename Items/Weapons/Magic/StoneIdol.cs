@@ -32,17 +32,17 @@ public class StoneIdol : ModItem {
 
 	public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockBack) {
 		velocity.Normalize();
-		Vector2 value5 = new Vector2((float)Main.rand.Next(-100, 101), (float)Main.rand.Next(-100, 101));
+		Vector2 value5 = new Vector2(Main.rand.Next(-100, 101), Main.rand.Next(-100, 101));
 		value5.Normalize();
 		velocity = velocity * 4f + value5;
 		velocity.Normalize();
 		velocity *= Item.shootSpeed;
-		float num152 = (float)Main.rand.Next(10, 80) * 0.001f;
+		float num152 = Main.rand.Next(10, 80) * 0.001f;
 		if(Main.rand.NextBool(2)) {
 			num152 *= -1f;
 		}
 
-		float num153 = (float)Main.rand.Next(10, 80) * 0.001f;
+		float num153 = Main.rand.Next(10, 80) * 0.001f;
 		if(Main.rand.NextBool(2)) {
 			num153 *= -1f;
 		}
@@ -54,7 +54,7 @@ public class StoneIdol : ModItem {
 	public override void AddRecipes() {
 		Recipe recipe = CreateRecipe();
 		recipe.AddIngredient(ItemID.StoneBlock, 30);
-		recipe.AddIngredient(ItemID.FallenStar, 1);
+		recipe.AddIngredient(ItemID.FallenStar);
 		recipe.AddTile(TileID.WorkBenches);
 		recipe.Register();
 	}

@@ -50,7 +50,7 @@ public abstract class BeeBase : MainProjBase {
 		base.AI();
 
 		// Check if target is dead. If so, we need to acquire another target
-		if(Projectile.owner == Main.myPlayer && (target.type == EntityRef.Type.NONE || !target.Generic().active) && (Projectile.timeLeft + Projectile.ai[1]) % 10 == 0) {
+		if(Projectile.owner == Main.myPlayer && (target.type == EntityRef.Type.None || !target.Generic().active) && (Projectile.timeLeft + Projectile.ai[1]) % 10 == 0) {
 			Projectile.ai[0] = 1;
 		} else {
 			Projectile.ai[0] = 0;
@@ -58,9 +58,9 @@ public abstract class BeeBase : MainProjBase {
 
 		// Acquire a target if one has not already been found
 		if((int)Projectile.ai[0] == 1) {
-			EntityRef plr = new EntityRef(EntityRef.Type.PLAYER, Projectile.owner);
+			EntityRef plr = new EntityRef(EntityRef.Type.Player, Projectile.owner);
 			target = AcquireTarget(Projectile, plr, 1000f, EntityFilterAll(plr, Projectile, Projectile.position, Projectile.width, Projectile.height));
-			if(target.type != EntityRef.Type.NONE) {
+			if(target.type != EntityRef.Type.None) {
 				Projectile.ai[0] = 0;
 				if(Main.netMode == NetmodeID.MultiplayerClient) {
 					NetHandler.SendPacket(Mod.GetPacket(), PacketID.BeeSyncTarget, new object[] { (ushort)Projectile.whoAmI, (byte)target.type, (ushort)target.whoAmI });
@@ -78,7 +78,7 @@ public abstract class BeeBase : MainProjBase {
 		Projectile.rotation = Projectile.velocity.X * 0.1f;
 
 		// If there is no target, do not continue
-		if(target.type != EntityRef.Type.NONE) {
+		if(target.type != EntityRef.Type.None) {
 			// Home in on the enemy
 			Vector2 toTarget = target.Generic().Center - Projectile.Center;
 			if(toTarget.Length() > maxSpeed) {
@@ -105,9 +105,9 @@ public abstract class BeeBase : MainProjBase {
 	}
 
 	public override void OnHit(EntityRef target, EntityRef.EntityHitInfo hitInfo) {
-		if(target.type == EntityRef.Type.NPC) {
-			target.NPC().immune[Projectile.owner] = 0;
-			beeHitCooldown[target.NPC().whoAmI] = 10;
+		if(target.type == EntityRef.Type.Npc) {
+			target.Npc().immune[Projectile.owner] = 0;
+			beeHitCooldown[target.Npc().whoAmI] = 10;
 		}
 	}
 

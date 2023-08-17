@@ -1,7 +1,10 @@
+using AntiverseMod.Config;
 using Microsoft.Xna.Framework;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader.Config;
 
 namespace AntiverseMod.Items.Miscellaneous;
 
@@ -47,22 +50,32 @@ public class NecromanticMirror : ModItem {
 	public override bool CanUseItem(Player player) {
 		if(player.lastDeathPostion.X == 0 && player.lastDeathPostion.Y == 0) {
 			return false;
-		} else {
-			return base.CanUseItem(player);
 		}
+		return base.CanUseItem(player);
 	}
 
 	public override bool? UseItem(Player player) {
 		if(Main.myPlayer == player.whoAmI) {
 			if(player.lastDeathPostion.X > 0 && player.lastDeathPostion.Y > 0) {
-				if(Main.rand.NextBool(2)) Dust.NewDust(player.position, player.width, player.height, DustID.MagicMirror, 0.0f, 0.0f, 150, Color.Purple, 1.1f);
+				if(Main.rand.NextBool(2)) {
+					Dust.NewDust(player.position, player.width, player.height, DustID.MagicMirror, 0.0f, 0.0f, 150, Color.Purple, 1.1f);
+				}
 				if(player.itemAnimation == Item.useAnimation / 2) {
 					for(int index = 0; index < 70; ++index) Dust.NewDust(player.position, player.width, player.height, DustID.MagicMirror, (float)(player.velocity.X * 0.5), (float)(player.velocity.Y * 0.5), 150, Color.Purple, 1.5f);
 					player.Teleport(player.lastDeathPostion, -69);
 					player.Center = player.lastDeathPostion;
-					if(Main.netMode == NetmodeID.MultiplayerClient) NetMessage.SendData(MessageID.TeleportEntity, -1, -1, null, 0, (float)player.whoAmI, player.lastDeathPostion.X, player.lastDeathPostion.Y, 3);
+					if(Main.netMode == NetmodeID.MultiplayerClient) {
+						NetMessage.SendData(MessageID.TeleportEntity, -1, -1, null, 0, player.whoAmI, player.lastDeathPostion.X, player.lastDeathPostion.Y, 3);
+					}
 
-					for(int index = 0; index < 70; ++index) Dust.NewDust(player.position, player.width, player.height, DustID.MagicMirror, 0.0f, 0.0f, 150, Color.Purple, 1.5f);
+					for(int index = 0; index < 70; ++index) {
+						Dust.NewDust(player.position, player.width, player.height, DustID.MagicMirror, 0.0f, 0.0f, 150, Color.Purple, 1.5f);
+					}
+
+					if(ModContent.GetInstance<AntiverseConfig>().NecromanticMirrorBreak) {
+						player.QuickSpawnItem(new EntitySource_ItemUse(player, Item), ModContent.ItemType<BrokenNecromanticMirror>());
+						Item.TurnToAir();
+					}
 					return true;
 				}
 			}

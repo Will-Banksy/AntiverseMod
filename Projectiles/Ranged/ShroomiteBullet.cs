@@ -65,9 +65,9 @@ public class ShroomiteBullet : MainProjBase
 
 	public override void OnHit(EntityRef target, EntityRef.EntityHitInfo hitInfo)
 	{
-		if(target.type == EntityRef.Type.NPC)
+		if(target.type == EntityRef.Type.Npc)
 		{
-			target.NPC().immune[Projectile.owner] = 0;
+			target.Npc().immune[Projectile.owner] = 0;
 		}
 
 		for (int i = 0; i < 2; i++)

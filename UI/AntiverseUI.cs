@@ -7,7 +7,7 @@ using Terraria;
 namespace AntiverseMod.UI; 
 
 public class AntiverseUI : ModSystem {
-	private UserInterface ui = null;
+	private UserInterface ui;
 
 	public override void Load() {
 		if (!Main.dedServ) {
@@ -28,7 +28,7 @@ public class AntiverseUI : ModSystem {
 		// int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
 		// if (mouseTextIndex != -1) {
 		// 	layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
-		// 		"Antiverse Mod: Rosary Bead UI",
+		// 		"Antiverse Mod: UI Layer Name",
 		// 		delegate {
 		// 			ui.Draw(Main.spriteBatch, new GameTime());
 		// 			return true;

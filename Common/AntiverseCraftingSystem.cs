@@ -10,8 +10,8 @@ public class AntiverseCraftingSystem : ModSystem {
 	public override void AddRecipes() {
 		Recipe.Create(ItemID.FiberglassFishingPole)
 			.AddIngredient(ItemID.Glass, 50)
-			.AddIngredient<Sassolite>(8) // TODO: Fibreglass is typically used to reinforce plastic - Do I think that the fibreglass fishing pole uses plastic? Probably. Maybe get plastic from plastic bags dropped by slimes or dolphins
-			.AddTile<Forgery>()
+			.AddIngredient<Boron>(8) // TODO: Fibreglass is typically used to reinforce plastic - Do I think that the fibreglass fishing pole uses plastic? Probably. Maybe get plastic from plastic bags dropped by slimes or dolphins
+			.AddTile(TileID.GlassKiln)
 			.Register();
 	}
 

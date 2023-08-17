@@ -32,24 +32,17 @@ public class ShroomiteArrow : MainProjBase {
 
 		Projectile.alpha = (int)Helper.Map.ExpoIn(Projectile.timeLeft, 300, 0, 0, 255);
 
-		NPC target = null;
-		float smallestDist = -1;
-		foreach(NPC npc in Main.npc) {
-			if(npc.CanBeChasedBy(Projectile)) {
-				if(Projectile.Center.AngleTo(npc.Center).AngleBetween(Projectile.velocity.ToRotation() - 0.3f, Projectile.velocity.ToRotation() + 0.3f)) {
-					if(Collision.CanHit(Projectile.position, Projectile.width, Projectile.height, npc.position, npc.width, npc.height)) {
-						float dist = Vector2.Distance(Projectile.Center, npc.Center);
-						if(dist < smallestDist || smallestDist == -1) {
-							target = npc;
-							smallestDist = dist;
-						}
-					}
-				}
-			}
-		}
+		EntityRef myPlayerRef = EntityRef.Player(Projectile.owner);
+		EntityRef target = EntityHelper.AcquireTarget(Projectile, myPlayerRef, null, (entity => {
+			return Projectile.Center.AngleTo(entity.Generic().Center).AngleBetween(Projectile.velocity.ToRotation() - 0.3f, Projectile.velocity.ToRotation() + 0.3f);
+		}) + EntityHelper.EntityFilterActive()
+		   + EntityHelper.EntityFilterEnemy(myPlayerRef)
+		   + EntityHelper.EntityFilterNpcCanBeChased(Projectile)
+		   + EntityHelper.EntityFilterCollisionCanHit(Projectile.Center, Projectile.width, Projectile.height)
+		);
 
-		if(target != null) {
-			Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.VelocityToPoint(Projectile.Center, target.Center, Projectile.ai[0]), 0.1f);
+		if(target.type != EntityRef.Type.None) {
+			Projectile.velocity = Vector2.Lerp(Projectile.velocity, Helper.VelocityToPoint(Projectile.Center, target.Generic().Center, Projectile.ai[0]), 0.1f);
 		} else {
 			Projectile.velocity.Y += 0.1f;
 		}
@@ -60,11 +53,11 @@ public class ShroomiteArrow : MainProjBase {
 		return new Color(rgba, rgba, rgba, rgba);
 	}
 
-	public override void ModifyHit(EntityRef target, EntityRef.EntityHitModifiers hitModifiers) {
+	public override void ModifyHit(EntityRef target, ref EntityRef.EntityHitModifiers hitModifiers) {
 		float multiplier = Helper.Map.Linear(Projectile.timeLeft, 300, 0, 1, 1.8f);
 		hitModifiers.Match(
-			npcMods => npcMods.SourceDamage *= multiplier,
-			plrMods => plrMods.SourceDamage *= multiplier
+			npcMods => npcMods.Copy(sourceDamage: npcMods.SourceDamage * multiplier),
+			plrMods => plrMods.Copy(sourceDamage: plrMods.SourceDamage * multiplier)
 		);
 	}
 

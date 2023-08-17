@@ -7,6 +7,10 @@ using System;
 namespace AntiverseMod.Items.Weapons.Ranged;
 
 public class KillerBeenade : ModItem {
+	public override void SetStaticDefaults() {
+		Item.ResearchUnlockCount = 99;
+	}
+
 	public override void SetDefaults() {
 		Item.damage = 28;
 		Item.DamageType = DamageClass.Ranged;
@@ -30,14 +34,16 @@ public class KillerBeenade : ModItem {
 	}
 
 	public override void AddRecipes() {
-		Recipe recipe = CreateRecipe(100);
-		recipe.AddIngredient(ItemID.Beenade, 100);
+		const int amt = 50;
+		
+		Recipe recipe = CreateRecipe(amt);
+		recipe.AddIngredient(ItemID.Beenade, amt);
 		recipe.AddIngredient(ItemID.CobaltBar, 1);
 		recipe.AddTile(TileID.Anvils);
 		recipe.Register();
 
-		recipe = CreateRecipe(100);
-		recipe.AddIngredient(ItemID.Beenade, 100);
+		recipe = CreateRecipe(amt);
+		recipe.AddIngredient(ItemID.Beenade, amt);
 		recipe.AddIngredient(ItemID.PalladiumBar, 1);
 		recipe.AddTile(TileID.Anvils);
 		recipe.Register();

@@ -1,8 +1,7 @@
-﻿using System;
+﻿using System.Diagnostics;
 using Terraria;
 using Terraria.ModLoader;
 using AntiverseMod.Utils;
-using MonoMod.Utils;
 
 namespace AntiverseMod.Projectiles; 
 
@@ -16,6 +15,10 @@ public abstract class MainProjBase : ModProjectile {
 		}
 	}
 
+	/// <summary>
+	/// Called at the start of the first <c>AI()</c> call, and not on subsequent ones.
+	/// If you override <c>AI()</c> then you must call <c>base.AI()</c> preferably first in order for this method to be called.
+	/// </summary>
 	public virtual void InitialAI() {
 	}
 
@@ -28,35 +31,44 @@ public abstract class MainProjBase : ModProjectile {
 	}
 
 	/// <summary>
-	/// Allows you to make special effects when this projectile hits an entity.
-	/// <c>npcHitInfo</c> is null when the hit entity is a Player, and <c>plrHurtInfo</c> is null when the hit entity is an NPC
+	/// Allows you to create special effects when this projectile hits an NPC or player.
+	/// <br /><br />
+	/// For NPC hits, this method is only called for the owner of the projectile - in multiplayer, projectiles owned by a player
+	/// call this method on that client, and projectiles owned by the server (e.g. enemy projectiles) call this method
+	/// on the server.
+	/// <br /><br />
+	/// For player hits, this method is called only on the player's client in multiplayer.
+	/// <br /><br />
+	/// Use <c>hitInfo.Match(npcHitInfo => {}, plrHurtInfo => {})</c> to handle both cases, if necessary.
 	/// </summary>
 	public virtual void OnHit(EntityRef target, EntityRef.EntityHitInfo hitInfo) {
 	}
 
 	public sealed override void ModifyHitNPC(NPC target, ref NPC.HitModifiers hitModifiers) {
-		// NPC.HitModifiers? npcHitModifiers = hitModifiers;
-		// Player.HurtModifiers? plrHurtModifiers = null;
-		// ModifyHit(new EntityRef(target), ref npcHitModifiers, ref plrHurtModifiers);
-		// if(npcHitModifiers.HasValue) {
-		// 	hitModifiers = npcHitModifiers.Value;
-		// }
-		ModifyHit(new EntityRef(target), new EntityRef.EntityHitModifiers(hitModifiers));
+		EntityRef.EntityHitModifiers mods = new EntityRef.EntityHitModifiers(hitModifiers);
+		ModifyHit(new EntityRef(target), ref mods);
+		Debug.Assert(mods.Npc != null, "mods.Npc != null");
+		hitModifiers = mods.Npc.Value;
 	}
 
 	public sealed override void ModifyHitPlayer(Player target, ref Player.HurtModifiers hurtModifiers) {
-		// NPC.HitModifiers? npcHitModifiers = null;
-		// Player.HurtModifiers? plrHurtModifiers = hurtModifiers;
-		// ModifyHit(new EntityRef(target), ref npcHitModifiers, ref plrHurtModifiers);
-		// if(plrHurtModifiers.HasValue) {
-		// 	hurtModifiers = plrHurtModifiers.Value;
-		// }
-		ModifyHit(new EntityRef(target), new EntityRef.EntityHitModifiers(hurtModifiers));
+		EntityRef.EntityHitModifiers mods = new EntityRef.EntityHitModifiers(hurtModifiers);
+		ModifyHit(new EntityRef(target), ref mods);
+		Debug.Assert(mods.Player != null, "mods.Player != null");
+		hurtModifiers = mods.Player.Value;
 	}
 
 	/// <summary>
-	/// Allows modification of damage, crit, etc. when this projectile hits either a player or an npc. Changing either knockback or hitDirection only has an effect if the target is an npc
+	/// Allows modification of damage, knockback, etc., that this projectile does to an NPC or player.
+	/// <br /><br />
+	/// For NPC hits, this method is only called for the owner of the projectile - in multiplayer, projectiles owned by a player
+	/// call this method on that client, and projectiles owned by the server (e.g. enemy projectiles) call this method
+	/// on the server.
+	/// <br /><br />
+	/// For player hits, this method is called only on the player's client in multiplayer.
+	/// <br /><br />
+	/// Use <c>hitModifiers.Match(npcHitModifiers => {}, plrHurtModifiers => {})</c> to handle both cases, if necessary.
 	/// </summary>
-	public virtual void ModifyHit(EntityRef target, EntityRef.EntityHitModifiers hitModifiers) {// ref NPC.HitModifiers? npcHitModifiers, ref Player.HurtModifiers? plrHurtModifiers) {
+	public virtual void ModifyHit(EntityRef target, ref EntityRef.EntityHitModifiers hitModifiers) {// ref NPC.HitModifiers? npcHitModifiers, ref Player.HurtModifiers? plrHurtModifiers) {
 	}
 }

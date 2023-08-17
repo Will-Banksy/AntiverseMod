@@ -27,17 +27,17 @@ public class KillerBeeMedium : BeeBase {
 		base.AI();
 	}
 
-	public override void ModifyHit(EntityRef target, EntityRef.EntityHitModifiers hitModifiers) {
+	public override void ModifyHit(EntityRef target, ref EntityRef.EntityHitModifiers hitModifiers) {
 		hitModifiers.Match(
-			npcHitModifiers => npcHitModifiers.SourceDamage *= 1.08f,
-			plrHurtModifiers => plrHurtModifiers.SourceDamage *= 1.08f
+			npcHitModifiers => npcHitModifiers.Copy(sourceDamage: npcHitModifiers.SourceDamage * 1.08f),
+			plrHurtModifiers => plrHurtModifiers.Copy(sourceDamage: plrHurtModifiers.SourceDamage * 1.08f)
 		);
 	}
 
 	public override void OnHit(EntityRef target, EntityRef.EntityHitInfo hitInfo) {
 		base.OnHit(target, hitInfo);
-		if(target.type == EntityRef.Type.NPC) {
-			target.NPC().AddBuff(BuffID.Poisoned, 360);
+		if(target.type == EntityRef.Type.Npc) {
+			target.Npc().AddBuff(BuffID.Poisoned, 360);
 		}
 	}
 }
