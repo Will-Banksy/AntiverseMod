@@ -41,8 +41,8 @@ To build, place in Mod Sources directory (on Linux, "~/.local/share/Terraria/tMo
 
 #### Post-Plantera
 
-- [ ] Temple key mold replaces Temple Key from plantera's drop pool
-- [ ] Temple key is crafted from temple key mold + soul of fright + soul of sight + soul of might + ectoplasm
+- [X] Temple key mold replaces Temple Key from plantera's drop pool
+- [X] Temple key is crafted from temple key mold + soul of fright + soul of sight + soul of might + ectoplasm
 - *Maybe we want some content in the dungeon seeing as we're shepherding players there...?*
 
 
@@ -71,7 +71,7 @@ To build, place in Mod Sources directory (on Linux, "~/.local/share/Terraria/tMo
 
 - [ ] Nuclear processing facility (from advanced circuitry + titanium/adamantite + reinforced glass + superstrong magnets)
 - [ ] Uranium (from uranium ore which spawns at world gen minable with a picksaw. Radioactive in tile form and item form, as well as when in inventory. Need boron or depleted uranium equipment to shield from it)
-- [ ] Nuclear waste (appears like a barrel; From processing uranium in a nuclear processing facility)
+- [ ] Nuclear waste (radioactive; appears like a barrel and can be placed; From processing uranium in a nuclear processing facility)
 - [ ] Depleted uranium (alongside other hardmode metals, extracted from nuclear waste using a chlorophyte extractinator)
 - [ ] Depleted uranium armour set with headpiece for each class. Protects from radiation
 - [ ] Uranium + depleted uranium weaponry (radioactivity oriented?): bullets & arrows, gamma fusillade-like spellbook, etc.
