@@ -6,15 +6,15 @@ using Microsoft.Xna.Framework;
 using AntiverseMod.Dusts;
 using AntiverseMod.Utils;
 
-namespace AntiverseMod.Projectiles.Ranged; 
+namespace AntiverseMod.Projectiles.Ranged;
 
-public class ShroomiteBullet : MainProjBase
-{
+public class ShroomiteBullet : MainProjBase {
 	private bool tangible = false;
 	private Vector2 mousePos;
+	private Vector2 originPos;
+	private float mouseOriginDist;
 
-	public override void SetDefaults()
-	{
+	public override void SetDefaults() {
 		Projectile.width = 2;
 		Projectile.height = 2;
 		Projectile.friendly = true;
@@ -29,71 +29,61 @@ public class ShroomiteBullet : MainProjBase
 		Projectile.alpha = 50;
 	}
 
-	// BUG: Sometimes when firing horizontally or vertically some bullets will still be intangible past the cursor
-	// To debug slow bullets down to sluggish and probably use draw function to draw debug text to diagnose the issue
-	// Or just patch by on initial AI save player position and cursor distance from player and when distance of projectile from saved player pos greater than saved player-cursor distance then become tangible
-	public override void AI()
-	{
-		if(Projectile.timeLeft == 300)
-		{
-			if(Main.myPlayer == Projectile.owner)
-			{
-				mousePos = Main.MouseWorld;
-			}
+	public override void InitialAI() {
+		if(Main.myPlayer == Projectile.owner) {
+			mousePos = Main.MouseWorld;
+			originPos = Projectile.Center;
+			mouseOriginDist = Vector2.Distance(mousePos, originPos);
 		}
-		if(Helper.GoingAwayFrom(mousePos, Projectile.Center, Projectile.velocity))
-		{
+	}
+
+	public override void AI() {
+		base.AI();
+
+		if(Helper.GoingAwayFrom(mousePos, Projectile.Center, Projectile.velocity) || Vector2.Distance(Projectile.Center, originPos) > mouseOriginDist) {
 			tangible = true;
 			Projectile.tileCollide = true;
 		}
-		if(tangible && Projectile.alpha < 255)
-		{
+
+		if(tangible && Projectile.alpha < 255) {
 			Projectile.alpha += 15;
-			if(Projectile.alpha > 255)
-			{
+			if(Projectile.alpha > 255) {
 				Projectile.alpha = 255;
 			}
 		}
+
 		Projectile.FaceForward();
 		Lighting.AddLight(Projectile.Center, new Vector3(0, 0.1f, 0.3f));
 	}
 
-	public override Color? GetAlpha(Color lightColor)
-	{
+	public override Color? GetAlpha(Color lightColor) {
 		return new Color(Projectile.alpha, Projectile.alpha, Projectile.alpha, Projectile.alpha);
 	}
 
-	public override void OnHit(EntityRef target, EntityRef.EntityHitInfo hitInfo)
-	{
-		if(target.type == EntityRef.Type.Npc)
-		{
+	public override void OnHit(EntityRef target, EntityRef.EntityHitInfo hitInfo) {
+		if(target.type == EntityRef.Type.Npc) {
 			target.Npc().immune[Projectile.owner] = 0;
 		}
 
-		for (int i = 0; i < 2; i++)
-		{
-			//float ang = Projectile.velocity.ToRotation() + Main.rand.NextFloat(-0.4f, 0.4f);
-			//float speed = Main.rand.NextFloat(2, 8);
-			Vector2 vel = Helper.RandSpread(Projectile.velocity, 0.4f, 3);//Helper.FromPolar(ang, speed);
+		for(int i = 0; i < 2; i++) {
+			Vector2 vel = Helper.RandSpread(Projectile.velocity, 0.4f, 3); //Helper.FromPolar(ang, speed);
 
 			int type = ModContent.DustType<ShroomiteDust>();
 			Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, type, vel.X, vel.Y);
 		}
 	}
 
-	public override bool OnTileCollide(Vector2 oldVelocity)
-	{
+	public override bool OnTileCollide(Vector2 oldVelocity) {
 		Collision.HitTiles(Projectile.position + Projectile.velocity, Projectile.velocity, Projectile.width, Projectile.height);
 		SoundEngine.PlaySound(SoundID.Item10, Projectile.position); // SoundID.Item10 is the hit tile sound
 		return true;
 	}
 
-	public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox)
-	{
-		if(!tangible)
-		{
+	public override bool? Colliding(Rectangle projHitbox, Rectangle targetHitbox) {
+		if(!tangible) {
 			return false;
 		}
+
 		return base.Colliding(projHitbox, targetHitbox);
 	}
 }

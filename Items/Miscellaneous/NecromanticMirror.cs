@@ -24,7 +24,7 @@ public class NecromanticMirror : ModItem {
 
 	public override void AddRecipes() {
 		Recipe recipe = CreateRecipe();
-		recipe.AddIngredient(ItemID.MagicMirror, 1);
+		recipe.AddIngredient(ItemID.MagicMirror);
 		recipe.AddIngredient(ItemID.SoulofLight, 10);
 		recipe.AddIngredient(ItemID.SoulofNight, 10);
 		recipe.AddIngredient(ItemID.Bone, 20);
@@ -32,7 +32,7 @@ public class NecromanticMirror : ModItem {
 		recipe.Register();
 
 		recipe = CreateRecipe();
-		recipe.AddIngredient(ItemID.IceMirror, 1);
+		recipe.AddIngredient(ItemID.IceMirror);
 		recipe.AddIngredient(ItemID.SoulofLight, 10);
 		recipe.AddIngredient(ItemID.SoulofNight, 10);
 		recipe.AddIngredient(ItemID.Bone, 20);
@@ -41,8 +41,8 @@ public class NecromanticMirror : ModItem {
 
 		recipe = CreateRecipe();
 		recipe.AddIngredient<BrokenNecromanticMirror>();
-		recipe.AddIngredient(ItemID.SoulofLight, 10);
-		recipe.AddIngredient(ItemID.SoulofNight, 10);
+		recipe.AddIngredient(ItemID.SoulofLight, 6);
+		recipe.AddIngredient(ItemID.SoulofNight, 6);
 		recipe.AddTile(TileID.MythrilAnvil);
 		recipe.Register();
 	}
@@ -72,7 +72,7 @@ public class NecromanticMirror : ModItem {
 						Dust.NewDust(player.position, player.width, player.height, DustID.MagicMirror, 0.0f, 0.0f, 150, Color.Purple, 1.5f);
 					}
 
-					if(ModContent.GetInstance<AntiverseConfig>().NecromanticMirrorBreak) {
+					if(ModContent.GetInstance<AntiverseConfig>().NecromanticMirrorBreaksOnUse) {
 						player.QuickSpawnItem(new EntitySource_ItemUse(player, Item), ModContent.ItemType<BrokenNecromanticMirror>());
 						Item.TurnToAir();
 					}

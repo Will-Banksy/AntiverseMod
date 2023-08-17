@@ -13,6 +13,16 @@ public class AntiverseCraftingSystem : ModSystem {
 			.AddIngredient<Boron>(8) // TODO: Fibreglass is typically used to reinforce plastic - Do I think that the fibreglass fishing pole uses plastic? Probably. Maybe get plastic from plastic bags dropped by slimes or dolphins
 			.AddTile(TileID.GlassKiln)
 			.Register();
+
+		Recipe.Create(ItemID.TempleKey)
+			.AddIngredient<TempleKeyMold>()
+			.AddIngredient(ItemID.GoldenKey)
+			.AddIngredient(ItemID.Ectoplasm, 15)
+			.AddIngredient(ItemID.SoulofFright, 5)
+			.AddIngredient(ItemID.SoulofMight, 5)
+			.AddIngredient(ItemID.SoulofSight, 5)
+			.AddTile(TileID.MythrilAnvil)
+			.Register();
 	}
 
 	public override void AddRecipeGroups() {

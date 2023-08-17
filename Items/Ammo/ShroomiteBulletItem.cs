@@ -15,7 +15,7 @@ public class ShroomiteBulletItem : ModItem {
 		Item.damage = 12;
 		Item.DamageType = DamageClass.Ranged;
 		Item.width = 8;
-		Item.maxStack = 999;
+		Item.maxStack = Item.CommonMaxStack;
 		Item.consumable = true;
 		Item.height = 16;
 		Item.shoot = ModContent.ProjectileType<ShroomiteBullet>();
@@ -28,8 +28,7 @@ public class ShroomiteBulletItem : ModItem {
 
 	public override void AddRecipes() {
 		Recipe recipe = CreateRecipe(100);
-		recipe.AddIngredient(ItemID.ShroomiteBar, 1);
-		// recipe.SetResult(this, 100);
+		recipe.AddIngredient(ItemID.ShroomiteBar);
 		recipe.AddTile(TileID.MythrilAnvil);
 		recipe.Register();
 	}

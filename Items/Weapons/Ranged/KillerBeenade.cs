@@ -14,7 +14,7 @@ public class KillerBeenade : ModItem {
 	public override void SetDefaults() {
 		Item.damage = 28;
 		Item.DamageType = DamageClass.Ranged;
-		Item.maxStack = 999;
+		Item.maxStack = Item.CommonMaxStack;
 		Item.consumable = true;
 		Item.width = 22;
 		Item.height = 32;

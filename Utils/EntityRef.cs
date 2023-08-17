@@ -101,6 +101,19 @@ public readonly struct EntityRef {
 		}
 	}
 
+	public T Match<T>(Func<NPC, T> npcHandler, Func<Player, T> plrHandler) {
+		switch(type) {
+			case Type.Npc:
+				return npcHandler(Main.npc[whoAmI]);
+			
+			case Type.Player:
+				return plrHandler(Main.player[whoAmI]);
+			
+			default:
+				return default;
+		}
+	}
+
 	public EntityRef(NPC npc) {
 		//this.npc = npc;
 		//plr = null;

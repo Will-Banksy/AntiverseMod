@@ -25,11 +25,6 @@ Mods: {
 				Tooltip: Extracted from the ash of the underworld
 			}
 
-			BrokenNecromanticMirror: {
-				DisplayName: Broken Necromantic Mirror
-				Tooltip: Needs to be repaired before it can function again
-			}
-
 			GravityGun: {
 				DisplayName: Zero-Point Energy Field Manipulator
 				Tooltip: ...Or you can just call it a gravity gun
@@ -40,9 +35,9 @@ Mods: {
 				Tooltip: Teleports you to your last death position
 			}
 
-			BoronCarbide: {
-				DisplayName: Boron Carbide
-				Tooltip: ""
+			BrokenNecromanticMirror: {
+				DisplayName: Broken Necromantic Mirror
+				Tooltip: Needs to be repaired before it can function again
 			}
 
 			CrimsonAltarItem: {
@@ -52,11 +47,6 @@ Mods: {
 
 			DemonicAltarItem: {
 				DisplayName: Demonic Altar
-				Tooltip: ""
-			}
-
-			ForgeryItem: {
-				DisplayName: Forgery
 				Tooltip: ""
 			}
 
@@ -84,6 +74,11 @@ Mods: {
 				DisplayName: Fungicide Powder
 				Tooltip: Cleanses the fungi
 			}
+
+			TempleKeyMold: {
+				DisplayName: Temple Key Mold
+				Tooltip: Used to create a key that can open the way in to the jungle temple
+			}
 		}
 
 		Projectiles: {
@@ -95,7 +90,7 @@ Mods: {
 			KillerBeeMedium.DisplayName: Killer Bee
 			KillerBeenadeProj.DisplayName: Killer Beenade
 			KillerBeeSmall.DisplayName: Killer Bee
-			FungicidePowderProj.DisplayName: Fungicide Powder Proj
+			FungicidePowderProj.DisplayName: Fungicide Powder
 		}
 
 		Tiles: {
@@ -107,11 +102,16 @@ Mods: {
 		Configs: {
 			AntiverseConfig: {
 				DisplayName: Antiverse Config
-				Headers.Miscellaneous: Miscellaneous Header
+				Headers.Miscellaneous: Miscellaneous
 
-				NecromanticMirrorBreak: {
-					Label: Necromantic Mirror breaks
+				NecromanticMirrorBreaksOnDeath: {
+					Label: Necromantic Mirror Breaks On Death
 					Tooltip: Set to true for the Necromantic Mirror to break upon death; False for it to not
+				}
+
+				NecromanticMirrorBreaksOnUse: {
+					Label: Necromantic Mirror Breaks On Use
+					Tooltip: Set to true for the Necromantic Mirror to break upon usage; False for it to not
 				}
 			}
 		}

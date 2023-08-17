@@ -7,6 +7,9 @@ public class AntiverseConfig : ModConfig {
 	public override ConfigScope Mode => ConfigScope.ServerSide;
 
 	[Header("Miscellaneous")]
+	[DefaultValue(false)]
+	public bool NecromanticMirrorBreaksOnDeath;
+
 	[DefaultValue(true)]
-	public bool NecromanticMirrorBreak;
+	public bool NecromanticMirrorBreaksOnUse;
 }

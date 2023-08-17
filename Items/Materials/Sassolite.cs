@@ -1,5 +1,6 @@
 using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria;
 
 namespace AntiverseMod.Items.Materials;
 
@@ -12,8 +13,8 @@ public class Sassolite : ModItem {
 		Item.width = 26;
 		Item.height = 20;
 
-		Item.maxStack = 999;
-		Item.value = Terraria.Item.sellPrice(copper: 20);
+		Item.maxStack = Item.CommonMaxStack;
+		Item.value = Item.sellPrice(copper: 20);
 		Item.rare = ItemRarityID.Blue;
 	}
 }

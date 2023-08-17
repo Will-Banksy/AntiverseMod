@@ -26,7 +26,7 @@ public class KillerBeenadeProj : GrenadeBase {
 
 		float beeSpeed = 4f;
 
-		foreach(Vector2 vec in Helper.vecArrCross) {
+		foreach(Vector2 vec in Helper.VecArrayCross) {
 			for(int i = 0; i < 5; i++) {
 				int beeType = KillerBeeType(i);
 
