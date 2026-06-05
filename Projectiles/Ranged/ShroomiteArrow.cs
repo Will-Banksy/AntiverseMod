@@ -1,3 +1,4 @@
+using AntiverseMod.Dusts;
 using Terraria;
 using Terraria.ID;
 using Microsoft.Xna.Framework;
@@ -59,6 +60,15 @@ public class ShroomiteArrow : MainProjBase {
 			npcMods => npcMods.Copy(sourceDamage: npcMods.SourceDamage * multiplier),
 			plrMods => plrMods.Copy(sourceDamage: plrMods.SourceDamage * multiplier)
 		);
+	}
+
+	public override void OnHit(EntityRef target, EntityRef.EntityHitInfo hitInfo) {
+		for(int i = 0; i < 6; i++) {
+			Vector2 vel = Helper.FromPolar(Main.rand.NextFloat(Helper.TWO_PI), Main.rand.NextFloat(4f));
+
+			int type = ModContent.DustType<ShroomiteDust>();
+			Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, type, vel.X, vel.Y);
+		}
 	}
 
 	public override bool OnTileCollide(Vector2 oldVelocity) {

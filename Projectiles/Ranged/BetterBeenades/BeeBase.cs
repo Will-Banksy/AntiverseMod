@@ -7,10 +7,10 @@ using System;
 using AntiverseMod.Networking;
 using static AntiverseMod.Utils.EntityHelper;
 
-namespace AntiverseMod.Projectiles.Ranged.BetterBeenades; 
+namespace AntiverseMod.Projectiles.Ranged.BetterBeenades;
 
 public abstract class BeeBase : MainProjBase {
-	public static sbyte[] beeHitCooldown = new sbyte[Main.npc.Length];
+	public static sbyte[] BeeHitCooldown = new sbyte[Main.npc.Length];
 
 	public EntityRef target = default;
 
@@ -29,11 +29,11 @@ public abstract class BeeBase : MainProjBase {
 		Projectile.DamageType = DamageClass.Ranged;
 	}
 
-	public override void Kill(int timeLeft) {
+	public override void OnKill(int timeLeft) {
 		int dustId = Dust.NewDust(Projectile.position, Projectile.width, Projectile.height, DustID.Bee, Projectile.velocity.X, Projectile.velocity.Y, 50, default(Color), 1f);
 		Main.dust[dustId].noGravity = true;
 		Main.dust[dustId].scale = 1f;
-		base.Kill(timeLeft);
+		base.OnKill(timeLeft);
 	}
 
 	public override void InitialAI() {
@@ -107,12 +107,12 @@ public abstract class BeeBase : MainProjBase {
 	public override void OnHit(EntityRef target, EntityRef.EntityHitInfo hitInfo) {
 		if(target.type == EntityRef.Type.Npc) {
 			target.Npc().immune[Projectile.owner] = 0;
-			beeHitCooldown[target.Npc().whoAmI] = 10;
+			BeeHitCooldown[target.Npc().whoAmI] = 10;
 		}
 	}
 
 	public override bool? CanHitNPC(NPC target) {
-		if(beeHitCooldown[target.whoAmI] == 0) {
+		if(BeeHitCooldown[target.whoAmI] == 0) {
 			return null;
 		}
 		return false;

@@ -4,8 +4,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.GameContent.ItemDropRules;
 using AntiverseMod.Items.Miscellaneous;
+using AntiverseMod.Items.Weapons.Magic;
 
-namespace AntiverseMod.Common; 
+namespace AntiverseMod.Common;
 
 public class AntiverseGlobalNpc : GlobalNPC {
 	public override void ModifyNPCLoot(NPC npc, NPCLoot npcLoot) {
@@ -25,6 +26,10 @@ public class AntiverseGlobalNpc : GlobalNPC {
 						}
 					}
 				);
+				break;
+
+			case NPCID.RuneWizard: // Add chance of dropping Runic Tome
+				npcLoot.Add(ItemDropRule.Common(ModContent.ItemType<RunicTome>(), 6));
 				break;
 		}
 	}

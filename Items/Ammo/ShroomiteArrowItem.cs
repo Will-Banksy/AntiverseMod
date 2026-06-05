@@ -11,7 +11,7 @@ public class ShroomiteArrowItem : ModItem {
 	}
 
 	public override void SetDefaults() {
-		Item.damage = 12;
+		Item.damage = 18;
 		Item.DamageType = DamageClass.Ranged;
 		Item.width = 8;
 		Item.maxStack = Item.CommonMaxStack;

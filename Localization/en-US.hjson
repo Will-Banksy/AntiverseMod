@@ -15,11 +15,6 @@ Mods: {
 					'''
 			}
 
-			Boron: {
-				DisplayName: Boron
-				Tooltip: ""
-			}
-
 			Sassolite: {
 				DisplayName: Sassolite
 				Tooltip: Extracted from the ash of the underworld
@@ -79,6 +74,15 @@ Mods: {
 				DisplayName: Temple Key Mold
 				Tooltip: Used to create a key that can open the way in to the jungle temple
 			}
+
+			RunicTome: {
+				DisplayName: Runic Tome
+				Tooltip:
+					'''
+					Marks enemies hit with a rune that builds damage with successive hits
+					Rune detonates after a delay or when enough damage is stored to execute the enemy
+					'''
+			}
 		}
 
 		Projectiles: {
@@ -113,6 +117,13 @@ Mods: {
 					Label: Necromantic Mirror Breaks On Use
 					Tooltip: Set to true for the Necromantic Mirror to break upon usage; False for it to not
 				}
+			}
+		}
+
+		Buffs: {
+			RuneMarked: {
+				DisplayName: Rune Marked
+				Description: Mods.AntiverseMod.Buffs.RuneMarked.Description
 			}
 		}
 	}
