@@ -1,6 +1,7 @@
 ﻿using Terraria;
 using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Terraria.ModLoader;
 
 namespace AntiverseMod.Utils;
@@ -127,7 +128,7 @@ public static class Helper {
 		Vector2 dirToCurr = Helper.DirTo(currentPos, point);
 		return ((dirToInit.X != dirToCurr.X) || initialPos.Y.FuzzyEquals(point.Y, 0.1f)) && ((dirToInit.Y != dirToCurr.Y) || initialPos.X.FuzzyEquals(point.X, 0.1f));
 	}
-	
+
 	public static bool GoingAwayFrom(Vector2 point, Vector2 position, Vector2 velocity) {
 		return DirTo(point, position) == DirOf(velocity);
 	}
@@ -181,5 +182,34 @@ public static class Helper {
 		}
 
 		return mods;
+	}
+
+	/// <summary>
+	/// Finds the index at which a new "standard tooltip" (i.e. last non-taken "Tooltip#") should be inserted into,
+	/// creates a TooltipLine with the name of the last non-taken "Tooltip#" (i.e. if Tooltip#0 already exists, uses Tooltip#1),
+	/// and inserts it into the found position.
+	/// </summary>
+	/// <returns>The index the tooltip was inserted into and the name that was used</returns>
+	public static (int, string) InsertStandardTooltip(Mod mod, List<TooltipLine> tooltips, string tooltipText) {
+		HashSet<int> seenTooltipIds = new HashSet<int>();
+		int insertionIdx = tooltips.Count - 1;
+		for(int i = 0; i < tooltips.Count; i++) {
+			string name = tooltips[i].Name;
+			if(name.StartsWith("Tooltip#")) {
+				int id = int.Parse(name.Substring(name.LastIndexOf("#")));
+				seenTooltipIds.Add(id);
+			} else if(name == "JourneyResearch" || name.StartsWith("Prefix") || name == "Expert" || name == "EtherianManaWarning") {
+				insertionIdx = i;
+				break;
+			}
+		}
+		int usedId = 0;
+		while(seenTooltipIds.Contains(usedId)) {
+			usedId++;
+		}
+		string newTooltipName = "Tooltip#" + usedId.ToString();
+		TooltipLine newNamedTooltip = new TooltipLine(mod, newTooltipName, tooltipText);
+		tooltips.Insert(insertionIdx, newNamedTooltip);
+		return (insertionIdx, newTooltipName);
 	}
 }

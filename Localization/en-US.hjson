@@ -126,5 +126,7 @@ Mods: {
 				Description: Mods.AntiverseMod.Buffs.RuneMarked.Description
 			}
 		}
+
+		Additional.Katana.AltFunctionTooltip: Right click to quickly change move direction
 	}
 }

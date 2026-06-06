@@ -4,14 +4,13 @@ using Terraria.UI;
 using System.Collections.Generic;
 using Terraria;
 
-namespace AntiverseMod.UI; 
+namespace AntiverseMod.UI;
 
 public class AntiverseUI : ModSystem {
 	private UserInterface ui;
 
 	public override void Load() {
 		if (!Main.dedServ) {
-			// TODO: Figure out what Main.dedServ means. Dedicated Server?
 			ui = new UserInterface();
 		}
 	}
