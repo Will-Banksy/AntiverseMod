@@ -83,6 +83,15 @@ Mods: {
 					Rune detonates after a delay or when enough damage is stored to execute the enemy
 					'''
 			}
+
+			DiscordiantBlade: {
+				DisplayName: Discordiant Blade
+				Tooltip:
+					'''
+					Right click for a powerful teleport slash
+					Does more damage when inflicted with chaos state & inflicts chaos state on enemies
+					'''
+			}
 		}
 
 		Projectiles: {
@@ -95,6 +104,7 @@ Mods: {
 			KillerBeenadeProj.DisplayName: Killer Beenade
 			KillerBeeSmall.DisplayName: Killer Bee
 			FungicidePowderProj.DisplayName: Fungicide Powder
+			DiscordiantBladeSlash.DisplayName: Discordiant Blade Slash
 		}
 
 		Tiles: {

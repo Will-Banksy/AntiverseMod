@@ -39,4 +39,8 @@ public class RunicTome : ModItem {
 		proj.timeLeft = 300;
 		return false;
 	}
+
+	public override bool MagicPrefix() {
+		return true;
+	}
 }

@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 namespace AntiverseMod.Projectiles.Magic;
 
 public class StoneSpear : ModProjectile {
-	public override string Texture => "Terraria/Images/Projectile_" + ProjectileID.ShadowBeamFriendly;
+	public override string Texture => $"Terraria/Images/Projectile_{ProjectileID.ShadowBeamFriendly}";
 
 	public override void SetDefaults() {
 		Projectile.alpha = 255;

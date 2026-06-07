@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using System;
 using System.Collections.Generic;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace AntiverseMod.Utils;
@@ -105,6 +106,12 @@ public static class Helper {
 		vector.Normalize();
 		vector.X *= len;
 		vector.Y *= len;
+	}
+
+	public static Vector2 WithLength(this Vector2 vector, float len) {
+		Vector2 copy = new Vector2(vector.X, vector.Y);
+		copy.Normalize();
+		return copy * len;
 	}
 
 	public static Vector2 DirTo(Vector2 start, Vector2 end) {
@@ -211,5 +218,27 @@ public static class Helper {
 		TooltipLine newNamedTooltip = new TooltipLine(mod, newTooltipName, tooltipText);
 		tooltips.Insert(insertionIdx, newNamedTooltip);
 		return (insertionIdx, newTooltipName);
+	}
+
+	/// <summary>
+	/// Attempts to teleport the passed-in player to the provided position, with the provided teleportStyle, which will
+	/// be blocked using the same rules as the Rod of Discord.
+	/// </summary>
+	/// <param name="player">Player to be teleported</param>
+	/// <param name="position">Position to teleport to</param>
+	/// <param name="teleportStyle">Corresponding to a TeleportationStyleID constant</param>
+	/// <param name="force">Don't check whether the player can teleport to the provided position - Do it anyway. This
+	/// allows teleporting inside of tiles</param>
+	/// <returns>Whether the player was teleported/whether the teleport succeeded</returns>
+	public static bool TeleportPlayer(Player player, Vector2 position, int teleportStyle, bool force = false) {
+		// TODO: Check whether the player can teleport
+		if(Main.netMode == NetmodeID.SinglePlayer) {
+			player.Teleport(position, teleportStyle);
+		} else if(Main.netMode == NetmodeID.MultiplayerClient) {
+			NetMessage.SendData(MessageID.TeleportEntity, -1, -1, null, 0, player.whoAmI, position.X, position.Y,
+				teleportStyle);
+		}
+
+		return true;
 	}
 }

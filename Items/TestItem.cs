@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ModLoader;
 using Terraria.ID;
 
@@ -20,6 +21,9 @@ public class TestItem : ModItem {
 					Main.NewText("Player \"" + plr.name + "\" hostility: " + plr.hostile + ", team: " + plr.team);
 				}
 			}
+
+			Vector2 ab = Main.MouseWorld - player.position;
+			Main.NewText($"Player pos: ({player.position.X}, {player.position.Y}), mouse pos: ({Main.MouseWorld.X}, {Main.MouseWorld.Y}), ab: ({ab.X}, {ab.Y})");
 		}
 
 		return true;

@@ -36,4 +36,8 @@ public class ScrapSword : ModItem {
 		recipe.AddTile(TileID.WorkBenches);
 		recipe.Register();
 	}
+
+	public override bool MeleePrefix() {
+		return true;
+	}
 }

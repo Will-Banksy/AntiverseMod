@@ -7,6 +7,14 @@ using AntiverseMod.Config;
 namespace AntiverseMod.Common;
 
 public class AntiversePlayer : ModPlayer {
+	public bool noGravity = false;
+
+	public override void PostUpdateBuffs() {
+		if(noGravity) {
+			Player.gravity = 0;
+		}
+	}
+
 	public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource) {
 		if(ModContent.GetInstance<AntiverseConfig>().NecromanticMirrorBreaksOnDeath) {
 			for(int i = 0; i < Player.inventory.Length; i++) {

@@ -6,10 +6,10 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace AntiverseMod.Projectiles.Miscellaneous; 
+namespace AntiverseMod.Projectiles.Miscellaneous;
 
 public class FungicidePowderProj : MainProjBase {
-	public override string Texture => $"Terraria/Projectile_{ProjectileID.ShadowBeamFriendly}";
+	public override string Texture => $"Terraria/Images/Projectile_{ProjectileID.ShadowBeamFriendly}";
 
 	public override void SetDefaults() {
 		Projectile.aiStyle = ProjAIStyleID.Powder;
@@ -25,7 +25,7 @@ public class FungicidePowderProj : MainProjBase {
 	private void PurifyFungi(int i, int j) {
 		Tile tile = Main.tile[i, j];
 		bool needsUpdate = false;
-		
+
 		if(tile.TileType == TileID.MushroomGrass) {
 			WorldGen.TryKillingTreesAboveIfTheyWouldBecomeInvalid(i, j, TileID.JungleGrass);
 			tile.TileType = TileID.JungleGrass;
@@ -61,7 +61,7 @@ public class FungicidePowderProj : MainProjBase {
 			int startJ = (int)(Projectile.position.Y / 16f) - 1;
 			int endI = (int)((Projectile.position.X + Projectile.width) / 16f) + 2;
 			int endJ = (int)((Projectile.position.Y + Projectile.height) / 16f) + 2;
-			
+
 			if(startI < 0) {
 				startI = 0;
 			}
@@ -74,7 +74,7 @@ public class FungicidePowderProj : MainProjBase {
 			if(endJ > Main.maxTilesY) {
 				endJ = Main.maxTilesY;
 			}
-			
+
 			for(int i = startI; i < endI; i++) {
 				for(int j = startJ; j < endJ; j++) {
 					PurifyFungi(i, j);

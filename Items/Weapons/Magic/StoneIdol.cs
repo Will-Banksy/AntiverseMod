@@ -58,4 +58,8 @@ public class StoneIdol : ModItem {
 		recipe.AddTile(TileID.WorkBenches);
 		recipe.Register();
 	}
+
+	public override bool MagicPrefix() {
+		return true;
+	}
 }
